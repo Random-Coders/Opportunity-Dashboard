@@ -228,3 +228,20 @@ template{display:none;}
 .alert.warning{background-color:#ff9800;}
 .closebtn{margin-left:15px;color:white;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;transition-duration:0.4s;margin-top:-2px;}
 @media (min-width:850px){.closebtn:hover{color:black;}}
+nav{
+    background-color: #ddd;
+}
+nav a {
+    color: #000;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 5px;
+    min-width: 80px;
+    text-align: center;
+    background-color: #ddd;
+    font-size: 20px;
+    transition-duration: 0.5s;
+}
+nav a:hover {
+    background-color: #0066ff9c;
+}
