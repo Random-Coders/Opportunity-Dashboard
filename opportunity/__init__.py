@@ -1,7 +1,8 @@
 # Import Flask for flask app object
 from flask import Flask
 from config import Config
-from dbmodels.manager import client
+from flask_login import LoginManager
+from opportunity.dbmodels.manager import client
 
 # Create flask app object
 app = Flask(__name__)
