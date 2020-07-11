@@ -6,6 +6,7 @@ client = MongoClient()
 client = MongoClient('localhost', 27017)
 
 def connect(db_name):
+	# create or connect to db
 	db = client[db_name]
 
 	return db
