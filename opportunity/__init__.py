@@ -8,6 +8,9 @@ from opportunity.dbmodels.manager import client
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Create db from client
+db = client.pymongo_test
+
 # Create Login manager
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
