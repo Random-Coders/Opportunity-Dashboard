@@ -75,6 +75,7 @@
     {% endblock %}
 </head>
 <body>
+    {% include 'navbar.html' %}
     {% with errors = get_flashed_messages(category_filter=["error"]) %}{% if errors %}{% for msg in errors %}<div class="alert"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% with errors = get_flashed_messages(category_filter=["success"]) %}{% if errors %}{% for msg in errors %}<div class="alert success"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% with errors = get_flashed_messages(category_filter=["info"]) %}{% if errors %}{% for msg in errors %}<div class="alert info"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% with errors = get_flashed_messages(category_filter=["warning"]) %}{% if errors %}{% for msg in errors %}<div class="alert warning"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}
     {% block content %}
     {% endblock %}
