@@ -1,11 +1,7 @@
-from pymongo import MongoClient
-
-# mongo client
-client = MongoClient()
-# connect to local host
-client = MongoClient('localhost', 27017)
+from opportunity import client
 
 def connect(db_name):
+	# create or connect to db
 	db = client[db_name]
 
 	return db

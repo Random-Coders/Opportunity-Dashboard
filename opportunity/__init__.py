@@ -3,7 +3,7 @@ from flask import Flask
 from config import Config
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from opportunity.dbmodels.manager import client
+from pymongo import MongoClient
 
 # Create flask app object
 app = Flask(__name__)
@@ -16,6 +16,11 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'warning'
+
+# Create client for Mongodb
+client = MongoClient()
+# connect to local host
+client = MongoClient('localhost', 27017)
 
 # Import all views
 import opportunity.views
