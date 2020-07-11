@@ -17,7 +17,7 @@ class Opportunity(object):
 		}
 
 		result = posts.insert_one(post_data)
-		# for now 
+		# for now return status of db insert
 		if result.inserted_id:
 			return True
 		else:
