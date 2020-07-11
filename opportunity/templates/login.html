@@ -12,7 +12,13 @@
     {{ form.hidden_tag() }}
     <h2 class="form-title">Log in</h2>
     <div class="form-group">
-        {{ form.remember() }}{{ form.remember.label(class="form-label-css") }}
+        <div class="checkbox-container circular-container">
+            {{ form.remember.label(class="form-label-css") }}
+            <label class="checkbox-label">
+                {{ form.remember() }}
+                <span class="checkbox-custom circular"></span>
+            </label>
+        </div>
     </div>
     <div class="form-group">
     {{ form.email.label(class="form-label-css") }}
