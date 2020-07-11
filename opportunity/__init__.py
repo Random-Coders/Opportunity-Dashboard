@@ -9,8 +9,7 @@ from opportunity.dbmodels.manager import client
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Create db from client
-db = client.pymongo_test
+# Create bcrypt for app
 bcrypt = Bcrypt(app)
 
 # Create Login manager
