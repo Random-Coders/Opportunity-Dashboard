@@ -22,4 +22,4 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         pass
-    return render_template('login.html')
+    return render_template('login.html', form=form)
