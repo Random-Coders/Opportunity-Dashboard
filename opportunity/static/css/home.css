@@ -1,0 +1,32 @@
+h1 {
+    text-align: center;
+    font-size: 6vw;
+    margin: 0;
+}
+.title {
+    text-align: center;
+    margin: 10px auto;
+    width: max-content;
+    padding: 10px 35px;
+    background-color: #ff810094;
+    border-radius: 5px 70px;
+}
+@media (max-width: 900px){
+    h1{
+        font-size: 7vw;
+    }
+}
+@media (max-width: 600px){
+    h1{
+        font-size: 60px;
+    }
+    .title {
+        width: auto;
+        margin: 10px;
+    }
+}
+@media (max-width: 400px){
+    h1{
+        font-size: 40px;
+    }
+}
