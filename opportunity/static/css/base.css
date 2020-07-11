@@ -228,19 +228,22 @@ template{display:none;}
 .alert.warning{background-color:#ff9800;}
 .closebtn{margin-left:15px;color:white;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;transition-duration:0.4s;margin-top:-2px;}
 @media (min-width:850px){
-    .closebtn:hover{color:black;}
+  .closebtn:hover{color:black;}
 }
 nav{background-color:#ddd;}
 nav a{color:#000;text-decoration:none;display:inline-block;padding:0 5px;min-width:80px;text-align:center;background-color:#ddd;font-size:20px;transition-duration:0.5s;}
 nav a:hover{background-color:#0066ff9c;}
 footer{background:#909090;}
 @media (min-height:800px){
-    footer{bottom:0;width:100%;position:fixed;}
+  footer{bottom:0;width:100%;position:fixed;}
 }
 .copyright{text-align:center;padding:15px 0 5px 0;margin:0;}
 .source-wrapper{text-align:center;padding-bottom:10px;}
 .source-wrapper p{margin:0;}
 .source{color:#004dff;transition-duration:0.5s;}
 @media (min-width:800px){
-    .source:hover{color:#0088ffc7;}
+  .source:hover{color:#0088ffc7;}
+}
+@media (max-width:450px){
+  nav a{min-width:0;}
 }
