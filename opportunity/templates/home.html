@@ -2,6 +2,10 @@
 
 {% block title %}Home{% endblock %}
 
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
 {% block content %}
 <h1>Opportunity Dashboard</h1>
 {% endblock %}
