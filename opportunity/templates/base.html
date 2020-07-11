@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Title -->
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Meta Data -->
+    <meta charset="utf-8">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="keywords" content="Opportunity">
+    <meta name="description" content="Displaying opportunities for students">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <link rel="author" href="https://rafaelcenzano.com">
+    <link rel="author" href="https://cappillen.com">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=32&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="64x64" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=64&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="96x96" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=96&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="100x100" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=100&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="200x200" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=200&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="300x300" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=300&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="400x400" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=400&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="500x500" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=500&png.optimize=true">
+    <link rel="alternate icon" href="https://rafael.sirv.com/Images/htcfavicon.ico">
+
+    <!-- Apple Icon -->
+    <link rel="apple-touch-icon" sizes="57x57"   href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=57&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="60x60"   href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=60&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="72x72"   href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=72&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="76x76"   href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=76&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=114&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=120&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=144&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=152&png.optimize=true">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=180&png.optimize=true">
+
+    <!-- Andriod Icon -->
+    <link rel="icon" type="image/png" sizes="36x36"    href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=36&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="48x48"    href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=48&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="72x72"    href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=72&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="96x96"    href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=96&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="144x144"  href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=144&png.optimize=true">
+    <link rel="icon" type="image/png" sizes="192x192"  href="https://rafael.sirv.com/Images/htcfavicon.png?cx=90&cw=183&png.optimize&w=192&png.optimize=true">
+
+    <!-- Facebook -->
+    <meta property="og:title" content="Opportunity Dashboard">
+    <meta property="og:site_name" content="Opportunity Dashboard website">
+    <meta property="og:description" content="Website to showcase opportunities for students">
+    <meta property="og:url" content="https://rafaelcenzano.com/">
+    <meta property="og:image" content="https://rafael.sirv.com/Images/htcfavicon.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:title" content="Opportunity Dashboard">
+    <meta name="twitter:card" content="Opportunity Dashboard website">
+    <meta name="twitter:description" content="Website to showcase opportunities for students">   
+    <meta name="twitter:url" content="https://rafaelcenzano.com/">
+    <meta name="twitter:image" content="https://rafael.sirv.com/Images/htcfavicon.png">
+
+    <!-- Google+ -->
+    <meta itemprop="name" content="Opportunity Dashboard">
+    <meta itemprop="description" content="Website to showcase opportunities for students">
+    <meta itemprop="image" content="https://rafael.sirv.com/Images/htcfavicon.png">
+
+    {% block meta %}
+    {% endblock %}
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block head_css %}
+    {% endblock %}
+    {% block head_js %}
+    {% endblock %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}{% if errors %}{% for msg in errors %}<div class="alert"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% with errors = get_flashed_messages(category_filter=["success"]) %}{% if errors %}{% for msg in errors %}<div class="alert success"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% with errors = get_flashed_messages(category_filter=["info"]) %}{% if errors %}{% for msg in errors %}<div class="alert info"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% with errors = get_flashed_messages(category_filter=["warning"]) %}{% if errors %}{% for msg in errors %}<div class="alert warning"><span class="closebtn">&times;</span>{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}
+    {% block content %}
+    {% endblock %}
+    {% block trailing_js %}
+    {% endblock %}
+    <script type="text/javascript">
+        var close = document.getElementsByClassName("closebtn");var i;
+
+        for (i = 0; i < close.length; i++) {
+        close[i].onclick = function(){
+                var div = this.parentElement;
+                div.style.opacity = "0";
+                setTimeout(function(){ div.style.display = "none"; }, 600);
+            }
+        }
+    </script>
+</body>
+</html>
