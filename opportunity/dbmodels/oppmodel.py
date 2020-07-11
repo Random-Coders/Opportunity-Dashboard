@@ -6,9 +6,10 @@ class Opportunity(object):
 
 		self.db = connect("opportunity")
 
-	def add(self, opp_title, img_url, desc, link, topic, author):
+	def add(self, opp_title, date, img_url, desc, link, topic, author):
 		opp_obj = { 
 			"title": opp_title,
+			"date": date,
 			"imgurl": img_url,
 			"desc": desc,
 			"link": link,
@@ -20,7 +21,7 @@ class Opportunity(object):
 
 		result = opp_col.insert_one(opp_obj)
 		# for now return status of db insert
-		# if result.inserted_id:
-		# 	return True
-		# else:
-		# 	return False
+		if result.inserted_id:
+			return True
+		else:
+			return False

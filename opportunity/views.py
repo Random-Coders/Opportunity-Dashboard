@@ -14,6 +14,6 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index():
     opp = Opportunity()
-    opp.add("opp_title", "img", "desc", "link", "topic", "author")
+    print(opp.add("opp_title","date", "img", "desc", "link", "topic", "author"))
 
     return render_template('home.html')
