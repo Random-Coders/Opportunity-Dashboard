@@ -1,4 +1,4 @@
-from manager import connect
+from opportunity.dbmodels.manager import connect
 
 class Opportunity(object):
 
@@ -6,19 +6,21 @@ class Opportunity(object):
 
 		self.db = connect("opportunity")
 
-	def add(opp_title, img, desc, link, topic, author):
+	def add(self, opp_title, img_url, desc, link, topic, author):
 		opp_obj = { 
 			"title": opp_title,
-			"img": img,
+			"imgurl": img_url,
 			"desc": desc,
 			"link": link,
 			"topic": topic,
 			"author": author
 		}
+		# start a collection
+		opp_col = self.db.opps
 
-		result = posts.insert_one(post_data)
+		result = opp_col.insert_one(opp_obj)
 		# for now return status of db insert
-		if result.inserted_id:
-			return True
-		else:
-			return False
+		# if result.inserted_id:
+		# 	return True
+		# else:
+		# 	return False
