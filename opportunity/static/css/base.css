@@ -53,7 +53,7 @@ a{background-color:transparent;}
  * 1. Remove the bottom border in Chrome 57-
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
  */
-abbr[title]{border-bottom:none;/* 1 */text-decoration:underline;/* 2 */text-decoration:underline dotted;/* 2 */}
+abbr[title]{border-bottom:none;/* 1 */text-decoration:underline;/* 2 */-webkit-text-decoration:underline dotted;text-decoration:underline dotted;/* 2 */}
 
 /**
  * Add the correct font weight in Chrome, Edge, and Safari.
@@ -227,21 +227,20 @@ template{display:none;}
 .alert.info{background-color:#2196F3;}
 .alert.warning{background-color:#ff9800;}
 .closebtn{margin-left:15px;color:white;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;transition-duration:0.4s;margin-top:-2px;}
-@media (min-width:850px){.closebtn:hover{color:black;}}
-nav{
-    background-color: #ddd;
+@media (min-width:850px){
+    .closebtn:hover{color:black;}
 }
-nav a {
-    color: #000;
-    text-decoration: none;
-    display: inline-block;
-    padding: 0 5px;
-    min-width: 80px;
-    text-align: center;
-    background-color: #ddd;
-    font-size: 20px;
-    transition-duration: 0.5s;
+nav{background-color:#ddd;}
+nav a{color:#000;text-decoration:none;display:inline-block;padding:0 5px;min-width:80px;text-align:center;background-color:#ddd;font-size:20px;transition-duration:0.5s;}
+nav a:hover{background-color:#0066ff9c;}
+footer{background:#909090;}
+@media (min-height:800px){
+    footer{bottom:0;width:100%;position:fixed;}
 }
-nav a:hover {
-    background-color: #0066ff9c;
+.copyright{text-align:center;padding:15px 0 5px 0;margin:0;}
+.source-wrapper{text-align:center;padding-bottom:10px;}
+.source-wrapper p{margin:0;}
+.source{color:#004dff;transition-duration:0.5s;}
+@media (min-width:800px){
+    .source:hover{color:#0088ffc7;}
 }
