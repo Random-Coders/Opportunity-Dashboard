@@ -2,6 +2,7 @@
 from flask import Flask
 from config import Config
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 from opportunity.dbmodels.manager import client
 
 # Create flask app object
@@ -10,6 +11,7 @@ app.config.from_object(Config)
 
 # Create db from client
 db = client.pymongo_test
+bcrypt = Bcrypt(app)
 
 # Create Login manager
 login_manager = LoginManager(app)
