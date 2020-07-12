@@ -24,7 +24,7 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index(): 
     opp = Opportunity()
-    # opp.add("opp_title",datetime.now(), "img", "desc", "link", "climbings", "author")
+    opp.add("opp_title",datetime.now(), "img", "desc", "link", "coding", "author")
     # return opp.load_spliced(3, 1)
     comm = CommManager()
     comm.getleaders()
@@ -58,10 +58,11 @@ def opportunityPost(_id):
 @app.route('/test')
 def test():
     comm = CommManager()
-    comm.create("hackathon", "code", "climbing")
+    comm.create("second climber", "climb higher", "coding")
+    print(comm.getleaders())
     # opp = Opportunity()
     # opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
-    return redirect(url_for('index'))
+    return 'as'
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
