@@ -22,8 +22,8 @@ def load_user(id):
 def index(): 
     opp = Opportunity()
     opp.add("opp_title",datetime.now(), "img", "desc", "link", "topic", "author")
-    return opp.load_spliced(3, 1)
-    # return render_template('home.html')
+    # return opp.load_spliced(3, 1)
+    return render_template('home.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -37,19 +37,19 @@ def signup():
     if form.validate_on_submit():
 
         email = form.email.data
-        title = form.title.data
+        name = form.name.data
         password = bcrypt.generate_password_hash(
             form.password.data).decode('utf-8')
 
         find_user = User.get_by_email(email)
 
         if find_user is None:
-            User.register(email, title, password)
+            User.register(email, name, password)
             login_user(User.get_by_email(email))
-            flash(f'Account created for {form.title.data}!', 'success')
+            flash(f'Account created for {form.name.data}!', 'success')
             return redirect(url_for('index'))
         else:
-            flash(f'Account already exists for {form.title.data}!', 'success')
+            flash(f'Account already exists for {form.name.data}!', 'success')
 
         return redirect(url_for('index'))
     return render_template('signup.html', form=form)
