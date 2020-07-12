@@ -45,6 +45,22 @@ def opportunityPost(_id):
     return redirect(url_for('index'))
 
 
+@app.route('/posts', methods=['GET'])
+def posts():
+    opp = Opportunity()
+    posts, size = opp.load_spliced(0, 9)
+    return render_template('posts.html', posts=posts, start=0)
+
+
+@app.route('/posts/<start>', methods=['GET'])
+def postsMore(start):
+    opp = Opportunity()
+    posts, size = opp.load_spliced(start, 9)
+    if posts:
+        return render_template('posts.html', posts=posts, start=start)
+    return redirect(url_for('posts'))
+
+
 @app.route('/test')
 def test():
     opp = Opportunity()
