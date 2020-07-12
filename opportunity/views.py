@@ -6,7 +6,7 @@ from opportunity.models.loginform import LoginForm
 from opportunity.models.signupform import CreateUserForm
 from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
-from flask_login import login_required, login_user, current_user
+from flask_login import login_required, login_user, current_user, logout_user
 
 '''
 Views
@@ -36,22 +36,18 @@ def signup():
 
         email = form.email.data
         title = form.title.data
-        password = form.password.data # not encrypting it bc don't know how; can change but not that important
+        password = bcrypt.generate_password_hash(form.title.data)
+                       .decode('utf-8')
 
-        user = User(email, title, password)
-        user.save_to_mongo()
+        find_user =  User.get_by_email(email)
 
-        # Login and validate the user.
-        # user should be an instance of your `User` class
-        login_user(user, remember=True)
-
-        flash('Signed up successfully.')
-
-        next = request.args.get('next')
-        # is_safe_url should check if the url is safe for redirects.
-        # See http://flask.pocoo.org/snippets/62/ for an example.
-        if not is_safe_url(next):
-            return abort(400)
+        if find_user is None:
+            User.register(title, email, password)
+            logout_user(user)
+            flash(f'Account created for {form.title.data}!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash(f'Account already exists for {form.title.data}!', 'success')
 
         return redirect(next or url_for('index'))
     return render_template('signup.html', form=form)
@@ -65,6 +61,17 @@ def login():
     # handle this for us, and we use a custom LoginForm to validate.
     form = LoginForm()
     if form.validate_on_submit():
+
+        user_log =  User.get_by_email(email)
+
+        if User.login_valid(form.email.data, form.password.data):
+            loguser = User(email=user_log["email"], title=user_log["title"], password=user_log["password"], id=user_log["_id"])
+            login_user(loguser, remember=form.remember.data)
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+
         # Login and validate the user.
         # user should be an instance of your `User` class
         login_user(user)
