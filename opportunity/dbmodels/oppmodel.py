@@ -35,6 +35,9 @@ class Opportunity(object):
         else:
             return False
 
+    def load_all(self):
+        return self.db.opps.find().sort("date", -1)
+
     def load_recent_posts(self, num=1):
         # returns a cursor but data can be accessed through a for loop or through indices
         # load the most recent posts going up to num
@@ -45,15 +48,6 @@ class Opportunity(object):
         for i in test:
             print(i)
         return 'as'
-
-    @classmethod
-    def get_by_id(cls, _id):
-        print(_id)
-        db = connect("opportunity")
-        data = db.opps.find_one({"_id": _id})
-        if data is not None:
-            return cls(**data)
-        return None
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
