@@ -1,9 +1,9 @@
-form{text-align:center;margin:20px auto;background-color:#fff;padding:35px;border-radius:15px;width:max-content;}
+form{text-align:center;margin:20px auto;background-color:#005bff73;padding:35px;border-radius:15px;width:max-content;}
 @media (max-width:400px){
     form{padding:35px 5px;}
     .form-group{margin:20px auto 0 auto;width:200px;}
 }
-.form-title{margin:0;font-size:70px;padding:0 50px 20px 50px;}
+.form-title{margin:0;font-size:70px;padding:0 50px 20px 50px;color:#252525;}
 .form-group{margin-top:20px;}
 .form-label-css{font-size:25px;}
 .form-group input{background-color:inherit;border-color:#777;border:none;border-width:2px;border-bottom-style:solid;width:100%;font-size:20px;font-weight:200;}
