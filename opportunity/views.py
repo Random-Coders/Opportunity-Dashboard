@@ -38,10 +38,7 @@ def create():
 def opportunityPost(_id):
     opp = Opportunity()
     posts = opp.load_all()
-    print(type(_id))
     for post in posts:
-        print(type(post['_id']))
-        print(post['_id'] == ObjectId(_id))
         if post['_id'] == ObjectId(_id):
             return render_template('post.html', post=post)
     flash('Post not found', 'error')
