@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="title">
+    <h1>Opportunity Dashboard</h1>
+</div>
+<div class="columns is-multiline">
+    <div class="columns is-multiline is-centered">
+        {% if posts %}
+        {% for post in posts %}
+        <div class="column is-half-tablet is-one-third-widescreen">
+            <div class="post" onclick="window.location.href='{{ url_for('opportunityPost', _id=post['_id']) }}'">
+                <img src="{{ post['imgurl'] }}" alt="{{ post['title'] }} image">
+                <h3>{{ post['title'] }}</h3>
+                <h4>{{ post['author'] }}</h4>
+                <p>{% if post['desc']|length <= 100 %}{{ post['desc'] }}{% else %}{{ post['desc'][:100] }}...{% endif %}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="column is-full">
+            <div class="post">
+                <img src="https://rafael.sirv.com/Images/htcfavicon.png?png.optimize=true" alt="no posts image">
+                <h3>There are no posts</h3>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
