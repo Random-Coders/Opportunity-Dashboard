@@ -1,9 +1,10 @@
 from opportunity.dbmodels.manager import connect
 from flask_login import UserMixin, login_user
+from flask import session
 from opportunity import login_manager, bcrypt
 import uuid
 
-users_db = connect('users').users
+users_db = connect('users')
 
 class User(UserMixin):
 
@@ -45,7 +46,7 @@ class User(UserMixin):
     def login_valid(email, password):
         verify_user = User.get_by_email(email)
         if verify_user is not None:
-            return bcrypt.check_password_hash(verify_user.password, password)
+            return bcrypt.check_password_hash(verify_user.password, password.encode('utf-8'))
         return False
 
     @classmethod
