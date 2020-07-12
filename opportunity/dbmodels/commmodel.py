@@ -36,7 +36,7 @@ class CommManager(object):
         for comm in comm_list:
             comm_obj = {
                 "title": comm['title'],
-                "description": comm['desc'],
+                "description": comm['description'],
                 "topic": topic,
                 "count": comm['count']+1,
                 "follow": comm['follow'],
