@@ -1,5 +1,5 @@
 # Imports
-from opportunity import app, login_manager
+from opportunity import app, login_manager, bcrypt
 from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
 from opportunity.models.loginform import LoginForm
@@ -36,20 +36,19 @@ def signup():
 
         email = form.email.data
         title = form.title.data
-        password = bcrypt.generate_password_hash(form.title.data)
-                       .decode('utf-8')
+        password = bcrypt.generate_password_hash(form.title.data).decode('utf-8')
 
         find_user =  User.get_by_email(email)
 
         if find_user is None:
-            User.register(title, email, password)
-            logout_user(user)
+            User.register(email, title, password)
+            login_user(User.get_by_email(email))
             flash(f'Account created for {form.title.data}!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             flash(f'Account already exists for {form.title.data}!', 'success')
 
-        return redirect(next or url_for('index'))
+        return redirect(url_for('index'))
     return render_template('signup.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -62,7 +61,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
 
-        user_log =  User.get_by_email(email)
+        user_log =  User.get_by_email(form.email.data)
 
         if User.login_valid(form.email.data, form.password.data):
             loguser = User(email=user_log["email"], title=user_log["title"], password=user_log["password"], id=user_log["_id"])
