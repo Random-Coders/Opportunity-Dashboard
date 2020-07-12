@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Post {{ post['title'] }}{% endblock %}
 
 {% block head_css %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
