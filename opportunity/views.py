@@ -4,6 +4,7 @@ from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
 from opportunity.forms import *
 from opportunity.methods.issafe import is_safe_url
+from opportunity.dbmodels.commmodel import CommManager
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
 from datetime import datetime
@@ -22,6 +23,11 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index(): 
     opp = Opportunity()
+    # opp.add("opp_title",datetime.now(), "img", "desc", "link", "climbings", "author")
+    # return opp.load_spliced(3, 1)
+    comm = CommManager()
+    comm.getleaders()
+
     #opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
     posts = opp.load_recent_posts(10)
     return render_template('home.html', posts=posts, create=False)
@@ -53,7 +59,6 @@ def test():
     opp = Opportunity()
     opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
     return redirect(url_for('index'))
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
