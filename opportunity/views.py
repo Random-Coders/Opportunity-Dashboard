@@ -4,6 +4,7 @@ from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
 from opportunity.forms import *
 from opportunity.methods.issafe import is_safe_url
+from opportunity.dbmodels.commmodel import CommManager
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
 from datetime import datetime
@@ -21,8 +22,10 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index(): 
     opp = Opportunity()
-    opp.add("opp_title",datetime.now(), "img", "desc", "link", "topic", "author")
+    # opp.add("opp_title",datetime.now(), "img", "desc", "link", "climbings", "author")
     # return opp.load_spliced(3, 1)
+    comm = CommManager()
+    comm.getleaders()
     return render_template('home.html')
 
 
