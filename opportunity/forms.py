@@ -22,7 +22,7 @@ class RegisterUser(FlaskForm):
     name = StringField(
         'Name',
         validators=[
-            DataRequired(),],
+            DataRequired()],
         render_kw={
             "placeholder": "Enter your name or organization"})
     password = PasswordField(
@@ -36,3 +36,7 @@ class RegisterUser(FlaskForm):
         ])
     confirm = PasswordField('Repeat password')
     submit = SubmitField('Sign up')
+
+
+class CreateOpp(FlaskForm):
+    title = StringField('Title',validators=[DataRequired()])
