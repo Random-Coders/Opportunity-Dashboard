@@ -12,12 +12,12 @@ class CommManager(object):
         # start a collection
         topic_col = self.db.topic
 
-        addtopic = topic_col.find_one("topic": topic)
+        addtopic = topic_col.find_one({"topic": topic})
 
         if addtopic is None:
             comm_obj = {
                 "topic": topic,
-                "count": 0,
+                "count": 1,
                 "post_id": post_id
             }
             topic_col.insert_one(comm_obj)
@@ -33,3 +33,16 @@ class CommManager(object):
             topic_col.update(query, {"$set": comm_obj})
 
             print(f"Successfully updated the topic {topic}")
+
+    def getleaders(self, top=3):
+        topic_col = self.db.topic
+
+        toptopic = topic_col.find().sort("count").limit(top)
+
+        opp_ids = [opp['post_id'] for opp in toptopic]
+
+        opp_col = connect('opportunity').opps
+        for _id in opp_ids:
+            print(opp_col.find_one({"_id": _id}))
+
+
