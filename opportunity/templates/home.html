@@ -14,12 +14,12 @@
 <div class="columns is-multiline">
     <div class="column">
         <div class="create">
-            <h2><a href="#">Create a Community</a></h2>
+            <h2>Create a Community</h2>
         </div>
     </div>
     <div class="column">
-        <div class="create">
-            <h2><a href="{{ url_for('creatingpost') }}">Create a Post</a></h2>
+        <div class="create" onclick="window.location.href='{{ url_for('creatingpost') }}'">
+            <h2>Create a Post</h2>
         </div>
     </div>
 </div>
