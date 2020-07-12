@@ -239,7 +239,7 @@ nav{background-color:#ddd;position:relative;}
 nav a{cursor:pointer;color:#000;text-decoration:none;display:inline-block;padding:5px;min-width:80px;text-align:center;background-color:#ddd;font-size:20px;transition-duration:0.5s;}
 nav a:hover{background-color:#0066ff9c;}
 footer{background:#ddd;position:relative;}
-@media (min-height:800px){
+@media (min-height:700px){
   footer{bottom:0;width:100%;position:fixed;}
   nav{top:0;width:100%;position:fixed;}
   body{background-color:#fff;width:100%;margin-bottom:78px;margin-top:55px;}

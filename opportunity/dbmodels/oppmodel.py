@@ -38,6 +38,9 @@ class Opportunity(object):
         else:
             return False
 
+    def load_all(self):
+        return self.db.opps.find().sort("date", -1)
+
     def load_recent_posts(self, num=1):
         # returns a cursor but data can be accessed through a for loop or through indices
         # load the most recent posts going up to num
