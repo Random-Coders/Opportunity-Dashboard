@@ -64,7 +64,7 @@ def login():
         user_log =  User.get_by_email(form.email.data)
 
         if User.login_valid(form.email.data, form.password.data):
-            loguser = User(email=user_log["email"], title=user_log["title"], password=user_log["password"], id=user_log["_id"])
+            loguser = User.get_by_email(form.email.data)
             login_user(loguser, remember=form.remember.data)
             flash('You have been logged in!', 'success')
             return redirect(url_for('home'))
