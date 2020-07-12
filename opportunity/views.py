@@ -2,8 +2,7 @@
 from opportunity import app, login_manager, bcrypt
 from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
-from opportunity.forms import LoginForm, RegisterUser
-from opportunity.models.signupform import CreateUserForm
+from opportunity.forms import *
 from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
@@ -36,12 +35,11 @@ def signup():
     # handle this for us, and we use a custom LoginForm to validate.
     form = RegisterUser()
     if form.validate_on_submit():
-        print("hello", form.email.data)
 
         email = form.email.data
         title = form.title.data
         password = bcrypt.generate_password_hash(
-            form.title.data).decode('utf-8')
+            form.password.data).decode('utf-8')
 
         find_user = User.get_by_email(email)
 
@@ -75,14 +73,8 @@ def login():
             flash('You have been logged in!', 'success')
             return redirect(url_for('index'))
         else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+            flash('Login Unsuccessful. Please check email and password', 'warning')
 
-        # is_safe_url should check if the url is safe for redirects.
-        # See http://flask.pocoo.org/snippets/62/ for an example.
-        if not is_safe_url(next):
-            return abort(400)
-
-        return redirect(next or url_for('login'))
     return render_template('login.html', form=form)
 
 
