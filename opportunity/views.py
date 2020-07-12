@@ -7,6 +7,7 @@ from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
 from datetime import datetime
+from bson.objectid import ObjectId
 
 '''
 Views
@@ -21,9 +22,37 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index(): 
     opp = Opportunity()
-    opp.add("opp_title",datetime.now(), "img", "desc", "link", "topic", "author")
-    # return opp.load_spliced(3, 1)
-    return render_template('home.html')
+    #opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    posts = opp.load_recent_posts(10)
+    return render_template('home.html', posts=posts, create=False)
+
+
+@app.route('/create', methods=['GET'])
+def create():
+    opp = Opportunity()
+    posts = opp.load_recent_posts(10)
+    return render_template('home.html', posts=posts, create=True)
+
+
+@app.route('/opportunity/<_id>', methods=['GET'])
+def opportunityPost(_id):
+    opp = Opportunity()
+    posts = opp.load_all()
+    print(type(_id))
+    for post in posts:
+        print(type(post['_id']))
+        print(post['_id'] == ObjectId(_id))
+        if post['_id'] == ObjectId(_id):
+            return render_template('post.html', post=post)
+    flash('Post not found', 'error')
+    return redirect(url_for('index'))
+
+
+@app.route('/test')
+def test():
+    opp = Opportunity()
+    opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    return redirect(url_for('index'))
 
 
 @app.route('/signup', methods=['GET', 'POST'])

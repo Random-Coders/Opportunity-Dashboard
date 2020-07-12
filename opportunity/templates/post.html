@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Post {{ post['title'] }}{% endblock %}
+
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="title">
+    <h1>{{ post['title'] }}</h1>
+</div>
+<div class="columns is-centered">
+    <div class="column is-half-tablet is-one-third-widescreen">
+        <div class="post single">
+            <img src="{{ post['imgurl'] }}" alt="{{ post['title'] }} image">
+            <h3>{{ post['title'] }}</h3>
+            <h4>{{ post['author'] }}</h4>
+            <p><a href="{{ post['link'] }}" target="_blank" rel="noopener">{{ post['link'] }}</a></p>
+            <p>{{ post['desc'] }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
