@@ -1,7 +1,10 @@
 <nav>
     <a href="{{ url_for('index') }}"><p>Home</p></a>
     <a href="#"><p>Communities</p></a>
+    {% if current_user.is_authenticated %}
     <a href="#"><p>Create</p></a>
+    <a href="#"><p>Logout</p></a>
+    {% endif %}
     {% if not current_user.is_authenticated %}
     <a href="{{ url_for('login') }}"><p>Login</p></a>
     {% endif %}
