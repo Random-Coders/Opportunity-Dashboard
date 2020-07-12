@@ -31,6 +31,11 @@ h1 {
         box-shadow: 0 0 20px 1px #9a9a9a;
     }
 }
+.post img {
+    width: 80px; /* width of container */
+    height: 80px; /* height of container */
+    object-fit: cover;
+}
 .post h3 {
     font-size: 200%;
     font-weight: 600;
@@ -64,6 +69,9 @@ h1 {
 .community img {
     margin-right: 15px;
     float: left;
+    width: 80px; /* width of container */
+    height: 80px; /* height of container */
+    object-fit: cover;
 }
 .community h3{
     font-size: 150%;
@@ -74,6 +82,7 @@ h1 {
     margin-left: 15px;
     display: block;
     margin: 2px 0 0 0;
+    color: #000;
 }
 
 @media (max-width: 900px){
