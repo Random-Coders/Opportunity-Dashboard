@@ -7,6 +7,7 @@ from opportunity.models.signupform import CreateUserForm
 from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
+from datetime import datetime
 
 '''
 Views
@@ -18,12 +19,11 @@ def load_user(id):
 
 
 @app.route('/', methods=['GET'])
-def index():
-    print(current_user)
-    #opp = Opportunity()
-    #print(opp.add("opp_title","date", "img", "desc", "link", "topic", "author"))
-
-    return render_template('home.html')
+def index(): 
+    opp = Opportunity()
+    opp.add("opp_title",datetime.now(), "img", "desc", "link", "topic", "author")
+    return opp.load_spliced(3, 1)
+    # return render_template('home.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
