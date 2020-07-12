@@ -12,6 +12,7 @@ from flask_login import login_required, login_user, current_user, logout_user
 Views
 '''
 
+
 @login_manager.user_loader
 def load_user(id):
     return User.get_by_id(id)
@@ -25,6 +26,7 @@ def index():
 
     return render_template('home.html')
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     # Here we use a class of some kind to represent and validate our
@@ -36,9 +38,10 @@ def signup():
 
         email = form.email.data
         title = form.title.data
-        password = bcrypt.generate_password_hash(form.title.data).decode('utf-8')
+        password = bcrypt.generate_password_hash(
+            form.title.data).decode('utf-8')
 
-        find_user =  User.get_by_email(email)
+        find_user = User.get_by_email(email)
 
         if find_user is None:
             User.register(email, title, password)
@@ -51,6 +54,7 @@ def signup():
         return redirect(url_for('index'))
     return render_template('signup.html', form=form)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -61,7 +65,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
 
-        user_log =  User.get_by_email(form.email.data)
+        user_log = User.get_by_email(form.email.data)
 
         if User.login_valid(form.email.data, form.password.data):
             loguser = User.get_by_email(form.email.data)
@@ -85,6 +89,7 @@ def login():
 
         return redirect(next or url_for('index'))
     return render_template('login.html', form=form)
+
 
 @app.route('/logout', methods=['GET'])
 @login_required
