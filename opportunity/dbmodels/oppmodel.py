@@ -34,5 +34,17 @@ class Opportunity(object):
             return True
         else:
             return False
+
+    def load_recent_posts(self, num=1):
+        # returns a cursor but data can be accessed through a for loop or through indices
+        # load the most recent posts going up to num
+        return self.db.opps.find().sort("date", -1).limit(num)
+
+    def load_spliced(self, skip=0, batch_size=5):
+        test = self.db.opps.find().sort("date", -1).limit(batch_size).skip(skip)
+        for i in test:
+            print(i)
+        return 'as'
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
