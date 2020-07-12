@@ -4,21 +4,24 @@ from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
 from opportunity.models.loginform import LoginForm
 from opportunity.models.signupform import CreateUserForm
-from flask import render_template, make_response, url_for, send_file, abort, flash, request
-from flask_login import login_required, login_user
+from opportunity.methods.issafe import is_safe_url
+from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
+from flask_login import login_required, login_user, current_user
+
 '''
 Views
 '''
 
 @login_manager.user_loader
 def load_user(id):
-    return None
+    return User.get_by_id(id)
 
 
 @app.route('/', methods=['GET'])
 def index():
-    opp = Opportunity()
-    print(opp.add("opp_title","date", "img", "desc", "link", "topic", "author"))
+    print(current_user)
+    #opp = Opportunity()
+    #print(opp.add("opp_title","date", "img", "desc", "link", "topic", "author"))
 
     return render_template('home.html')
 
@@ -36,11 +39,11 @@ def signup():
         password = form.password.data # not encrypting it bc don't know how; can change but not that important
 
         user = User(email, title, password)
-        user.store()
+        user.save_to_mongo()
 
         # Login and validate the user.
         # user should be an instance of your `User` class
-        login_user(user)
+        login_user(user, remember=True)
 
         flash('Signed up successfully.')
 
@@ -55,6 +58,8 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     # Here we use a class of some kind to represent and validate our
     # client-side form data. For example, WTForms is a library that will
     # handle this for us, and we use a custom LoginForm to validate.
