@@ -19,7 +19,15 @@ class LoginForm(FlaskForm):
 
 class RegisterUser(FlaskForm):
     email = EmailField('Email address', [DataRequired(), Email()])
-    title = StringField('Name', validators=[DataRequired()], render_kw={"placeholder": "Enter your name or organization"})
+    title = StringField(
+        'Name',
+        validators=[
+            DataRequired(),
+            Length(
+                min=6,
+                message='Password must be over 6 characters long')],
+        render_kw={
+            "placeholder": "Enter your name or organization"})
     password = PasswordField(
         'Password',
         validators=[
@@ -28,4 +36,3 @@ class RegisterUser(FlaskForm):
         ])
     confirm = PasswordField('Repeat password')
     submit = SubmitField('Sign up')
-
