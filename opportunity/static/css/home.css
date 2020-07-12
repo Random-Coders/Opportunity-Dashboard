@@ -1,106 +1,31 @@
-h1 {
-    text-align: center;
-    font-size: 6vw;
-    margin: 0;
+h1{text-align:center;font-size:6vw;margin:0;}
+.title{text-align:center;margin:20px auto;width:max-content;padding:0 35px 10px 35px;background-color:#ffa400c4;border-radius:5px 70px;}
+.heading{padding-left:10px;font-size:30px;font-weight:400;}
+.post{cursor:pointer;margin:0 auto;text-align:center;width:90%;background-color:#b9cbff85;padding:10px;border-radius:10px;transition-duration:0.4s;}
+@media (min-width:800px){
+    .post:hover{box-shadow:0 0 20px 1px #9a9a9a;}
 }
-.title {
-    text-align: center;
-    margin: 20px auto;
-    width: max-content;
-    padding: 0 35px 10px 35px;
-    background-color: #ffa400c4;
-    border-radius: 5px 70px;
+.post img{width:80px; /* width of container */height:80px; /* height of container */object-fit:cover;}
+.single img{width:200px; /* width of container */height:200px; /* height of container */object-fit:cover;}
+.post h3{font-size:200%;font-weight:600;}
+.post h4{font-size:150%;}
+.post p{max-width:85%;margin:auto;}
+.communities{height:max-content;background-color:#00ffdb42;padding:10px;}
+.community{width:100%;padding:5px;overflow:hidden;border-radius:5px;transition-duration:0.5s;}
+@media (min-width:800px){
+    .community:hover{background-color:#00ffdb7a;box-shadow:0 0 20px 1px #9a9a9a;}
 }
-.heading{
-    padding-left: 10px;
-    font-size: 30px;
-    font-weight: 400;
-}
-.post {
-    cursor: pointer;
-    margin: 0 auto;
-    text-align: center;
-    width: 90%;
-    background-color: #b9cbff85;
-    padding: 10px;
-    border-radius: 10px;
-    transition-duration: 0.4s;
-}
-@media (min-width: 800px){
-    .post:hover {
-        box-shadow: 0 0 20px 1px #9a9a9a;
-    }
-}
-.post img {
-    width: 80px; /* width of container */
-    height: 80px; /* height of container */
-    object-fit: cover;
-}
-.post h3 {
-    font-size: 200%;
-    font-weight: 600;
-}
-.post h4 {
-    font-size: 150%;
-}
-.post p {
-    max-width: 85%;
-    margin: auto;
-}
-.communities {
-    height: max-content;
-    background-color: #00ffdb42;
-    padding: 10px;
-}
-.community {
-    width: 100%;
-    padding: 5px;
-    overflow: hidden;
-    border-radius: 5px;
-    transition-duration: 0.5s;
-}
-@media (min-width: 800px){
-    .community:hover {
-        background-color: #00ffdb7a;
-        box-shadow: 0 0 20px 1px #9a9a9a;
-    }
-}
-
-.community img {
-    margin-right: 15px;
-    float: left;
-    width: 80px; /* width of container */
-    height: 80px; /* height of container */
-    object-fit: cover;
-}
-.community h3{
-    font-size: 150%;
-    font-weight: 600;
-}
+.community img{margin-right:15px;float:left;width:80px; /* width of container */height:80px; /* height of container */object-fit:cover;}
+.community h3{font-size:150%;font-weight:600;}
 .community h3,
-.community p{
-    margin-left: 15px;
-    display: block;
-    margin: 2px 0 0 0;
-    color: #000;
+.community p{margin-left:15px;display:block;margin:2px 0 0 0;color:#000;}
+@media (max-width:900px){
+    h1{font-size:7vw;}
 }
-
-@media (max-width: 900px){
-    h1{
-        font-size: 7vw;
-    }
+@media (max-width:600px){
+    h1{font-size:60px;}
+    .title{width:auto;margin:10px;}
 }
-@media (max-width: 600px){
-    h1{
-        font-size: 60px;
-    }
-    .title {
-        width: auto;
-        margin: 10px;
-    }   
-}
-@media (max-width: 400px){
-    h1{
-        font-size: 40px;
-    }
+@media (max-width:400px){
+    h1{font-size:40px;}
 }
