@@ -47,4 +47,4 @@ class Opportunity(object):
         return 'as'
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<Opportunity {}>'.format(self.username)
