@@ -49,7 +49,7 @@ class CommManager(object):
     def getleaders(self, top=3):
         comm_col = self.db.comm
 
-        toptopic = comm_col.find().sort("count").limit(top)
+        toptopic = comm_col.find().sort("count", -1).limit(top)
 
         opp_ids = [opp['post_id'] for opp in toptopic]
 
