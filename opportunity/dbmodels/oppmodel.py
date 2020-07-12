@@ -17,7 +17,7 @@ class Opportunity(object):
         self.author_name = author_name
         self.authorid = authorid
 
-    def add(self, opp_title, date, img_url, desc, link, topic, author):
+    def add(self, opp_title, date, img_url, desc, link, topic, author, authorid):
         opp_obj = { 
             "title": opp_title,
             "date": date,
@@ -25,7 +25,8 @@ class Opportunity(object):
             "desc": desc,
             "link": link,
             "topic": topic,
-            "author": author
+            "authorname": author,
+            "authorid": authorid
         }
         # start a collection
         opp_col = self.db.opps
@@ -37,6 +38,16 @@ class Opportunity(object):
             #commmanager.upcount(topic, result.inserted_id)
             return result
         return None
+
+    def delete(self, identification):
+        item = { "_id" : identification }
+        self.db.opps.delete_one(item)
+
+    def edit(self, identification, thing, value):
+        item = { "_id" : identification }
+        newvalues = { "$set": { thing : value } }
+
+        self.db.opps.update_one(item, newvalues)
 
     def load_all(self):
         return self.db.opps.find().sort("date", -1)
