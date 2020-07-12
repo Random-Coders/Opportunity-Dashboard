@@ -8,49 +8,33 @@ class CommManager(object):
 
 
     def create(self, title, desc, topic):
+
+        # start a comm collection
+        comm_col = self.db.comm
+
         comm_obj = {
                 "title": title,
                 "description": desc,
                 "topic": topic,
-                "count": 1,
-                "follow": 1,
-                "post_id": ""
+                "count": 0,
+                "follow": 0,
+                "post_id": None
             }
-        topic_col.insert_one(comm_obj)
+        comm_col.insert_one(comm_obj)
+
+        print(f"Successfully added the community {topic}")
 
     def upcount(self, topic, post_id):
-        # get's the topic and post id of the most recent post in a community
+        # get's the comm and post id of the most recent post in a community
 
         # start a collection
-        topic_col = self.db.topic
+        comm_col = self.db.comm
 
-        addtopic = topic_col.find_one({"topic": topic})
+        # find all communities with topic
+        comm_list = comm_col.find({"topic": topic})
 
-        if addtopic is None:
-            comm_obj = {
-                "title": title,
-                "description": desc,
-                "topic": topic,
-                "count": 1,
-                "follow": 1,
-                "post_id": post_id
-            }
-            topic_col.insert_one(comm_obj)
+        for comm in comm_list:
 
-            print(f"Successfully added the topic {topic}")
-        else:
-            comm_obj = {
-                "title": title,
-                "description": desc,
-                "topic": topic,
-                "count": addtopic['count'] + 1,
-                "follow": addtopic['follow'],
-                "post_id": post_id
-            }
-            query = {"topic": topic}
-            topic_col.update(query, {"$set": comm_obj})
-
-            print(f"Successfully updated the topic {topic}")
 
     def getleaders(self, top=3):
         topic_col = self.db.topic
