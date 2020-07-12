@@ -7,6 +7,7 @@ from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
 from datetime import datetime
+from bson.objectid import ObjectId
 
 '''
 Views
@@ -23,14 +24,28 @@ def index():
     opp = Opportunity()
     #opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
     posts = opp.load_recent_posts(10)
-    return render_template('home.html', posts=posts)
+    return render_template('home.html', posts=posts, create=False)
+
+
+@app.route('/create', methods=['GET'])
+def create():
+    opp = Opportunity()
+    posts = opp.load_recent_posts(10)
+    return render_template('home.html', posts=posts, create=True)
 
 
 @app.route('/opportunity/<_id>', methods=['GET'])
 def opportunityPost(_id):
     opp = Opportunity()
-    post = opp.get_by_id(_id)
-    return render_template('post.html', post=post)
+    posts = opp.load_all()
+    print(type(_id))
+    for post in posts:
+        print(type(post['_id']))
+        print(post['_id'] == ObjectId(_id))
+        if post['_id'] == ObjectId(_id):
+            return render_template('post.html', post=post)
+    flash('Post not found', 'error')
+    return redirect(url_for('index'))
 
 
 @app.route('/test')
