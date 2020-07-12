@@ -28,5 +28,5 @@ class RegisterUser(FlaskForm):
             EqualTo('confirm', message='Passwords must match')
         ])
     confirm = PasswordField('Repeat password')
-    submit = SubmitField('Create Account')
+    submit = SubmitField('Sign up')
 
