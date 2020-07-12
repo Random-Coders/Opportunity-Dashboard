@@ -15,8 +15,8 @@
         <div class="post single">
             <img src="{{ post['imgurl'] }}" alt="{{ post['title'] }} image">
             <h3>{{ post['title'] }}</h3>
-            <h4>{{ post['author'] }}</h4>
-            <p><a href="{{ post['link'] }}" target="_blank" rel="noopener">{{ post['link'] }}</a></p>
+            <h4>{{ post['author_name'] }}</h4>
+            {% if post['link'] %}<p><a href="{{ post['link'] }}" target="_blank" rel="noopener">{{ post['link'] }}</a></p>{% endif %}
             <p>{{ post['desc'] }}</p>
         </div>
     </div>
