@@ -13,7 +13,7 @@ Forms for jyl toolbox
 class LoginForm(FlaskForm):
     email = EmailField('Email address', [DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
+    remember = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 '''
