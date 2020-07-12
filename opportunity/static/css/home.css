@@ -19,11 +19,16 @@ h1 {
 .post {
     margin: 0 auto;
     text-align: center;
-    max-width: 90%;
-    width: max-content;
+    width: 90%;
     background-color: #b9cbff85;
-    padding: 25px;
+    padding: 10px;
     border-radius: 10px;
+    transition-duration: 0.4s;
+}
+@media (min-width: 800px){
+    .post:hover {
+        box-shadow: 0 0 20px 1px #9a9a9a;
+    }
 }
 .post h3 {
     font-size: 200%;
@@ -33,8 +38,41 @@ h1 {
     font-size: 150%;
 }
 .post p {
-    max-width: 80%;
+    max-width: 85%;
     margin: auto;
+}
+.communities {
+    height: max-content;
+    background-color: #00ffdb42;
+    padding: 10px;
+}
+.community {
+    width: 100%;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 5px;
+    transition-duration: 0.5s;
+}
+@media (min-width: 800px){
+    .community:hover {
+        background-color: #00ffdb7a;
+        box-shadow: 0 0 20px 1px #9a9a9a;
+    }
+}
+
+.community img {
+    margin-right: 15px;
+    float: left;
+}
+.community h3{
+    font-size: 150%;
+    font-weight: 600;
+}
+.community h3,
+.community p{
+    margin-left: 15px;
+    display: block;
+    margin: 2px 0 0 0;
 }
 
 @media (max-width: 900px){
@@ -49,10 +87,7 @@ h1 {
     .title {
         width: auto;
         margin: 10px;
-    }
-    .post {
-        padding: 10px;
-    }
+    }   
 }
 @media (max-width: 400px){
     h1{
