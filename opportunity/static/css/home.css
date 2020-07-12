@@ -5,24 +5,32 @@ h1 {
 }
 .title {
     text-align: center;
-    margin: 10px auto;
+    margin: 20px auto;
     width: max-content;
-    padding: 10px 35px;
+    padding: 0 35px 10px 35px;
     background-color: #ffa400c4;
     border-radius: 5px 70px;
 }
-
+.heading{
+    padding-left: 10px;
+    font-size: 30px;
+    font-weight: 400;
+}
 .post {
     margin: 0 auto;
     text-align: center;
-    max-width: 80%;
+    max-width: 90%;
     width: max-content;
-    background-color: #ccc;
-    padding: 10px;
+    background-color: #b9cbff85;
+    padding: 25px;
     border-radius: 10px;
 }
-.post h2 {
+.post h3 {
     font-size: 200%;
+    font-weight: 600;
+}
+.post h4 {
+    font-size: 150%;
 }
 .post p {
     max-width: 80%;
@@ -42,19 +50,12 @@ h1 {
         width: auto;
         margin: 10px;
     }
+    .post {
+        padding: 10px;
+    }
 }
 @media (max-width: 400px){
     h1{
         font-size: 40px;
     }
 }
-.red {
-    background-color: red;
-}
-.blue {
-    background-color: blue;
-}
-.green {
-    background-color: green;
-}
-
