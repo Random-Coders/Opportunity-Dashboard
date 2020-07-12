@@ -224,8 +224,7 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus{outline:none;}
-body,
-html{background-color:#fff;width:100%;}
+body{background-color:#fff;width:100%;margin:0;}
 
 /* Flash CSS */
 .alert{padding:20px;background-color:#f44336;color:white;opacity:1;transition:opacity 0.6s;margin-bottom:15px;}
@@ -236,17 +235,22 @@ html{background-color:#fff;width:100%;}
 @media (min-width:850px){
   .closebtn:hover{color:black;}
 }
-nav{background-color:#ddd;}
+nav{background-color:#ddd;position:relative;}
 nav a{cursor:pointer;color:#000;text-decoration:none;display:inline-block;padding:5px;min-width:80px;text-align:center;background-color:#ddd;font-size:20px;transition-duration:0.5s;}
 nav a:hover{background-color:#0066ff9c;}
-footer{background:#ddd;}
+footer{background:#ddd;position:relative;}
 @media (min-height:800px){
   footer{bottom:0;width:100%;position:fixed;}
+  nav{top:0;width:100%;position:fixed;}
+  body{background-color:#fff;width:100%;margin-bottom:78px;margin-top:55px;}
 }
-.copyright{text-align:center;padding:15px 0 5px 0;margin:0;}
+.copyright{text-align:center;padding:15px 0 5px 0;margin:0 auto;max-width:90%;}
 .source-wrapper{text-align:center;padding-bottom:10px;}
 .source-wrapper p{margin:0;}
 .source{color:#004dff;transition-duration:0.5s;}
+@media (max-width: 518px){
+  body{margin-bottom: 102px;}
+}
 @media (min-width:800px){
   .source:hover{color:#0088ffc7;}
 }
