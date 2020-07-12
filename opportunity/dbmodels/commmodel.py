@@ -34,12 +34,22 @@ class CommManager(object):
         comm_list = comm_col.find({"topic": topic})
 
         for comm in comm_list:
+            comm_obj = {
+                "title": comm['title'],
+                "description": comm['desc'],
+                "topic": topic,
+                "count": comm['count']+1,
+                "follow": comm['follow'],
+                "post_id": post_id
+            }
+            comm_col.update({'_id': comm['_id']}, {"$set" : comm_obj})
+
 
 
     def getleaders(self, top=3):
-        topic_col = self.db.topic
+        comm_col = self.db.comm
 
-        toptopic = topic_col.find().sort("count").limit(top)
+        toptopic = comm_col.find().sort("count").limit(top)
 
         opp_ids = [opp['post_id'] for opp in toptopic]
 
