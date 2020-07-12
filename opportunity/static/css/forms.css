@@ -6,7 +6,7 @@ form{text-align:center;margin:20px auto;background-color:#005bff73;padding:35px;
 .form-title{margin:0;font-size:70px;padding:0 50px 20px 50px;color:#252525;}
 .form-group{margin-top:20px;}
 .form-label-css{font-size:25px;color:#252525;}
-.form-group input{background-color:inherit;border-color:#777;border:none;border-width:2px;border-bottom-style:solid;width:100%;font-size:20px;font-weight:200;}
+.form-group input{background-color:inherit;border-color:#252525;border:none;border-width:2px;border-bottom-style:solid;width:100%;font-size:20px;font-weight:200;}
 input#submit{background-color:#04ff009e;width:50%;border:none;padding:10px;font-size:25px;border-radius:5px;cursor:pointer;transition-duration:0.5s;color:#252525;font-weight:500;}
 input#submit:hover{background-color:#04ff00;}
 .remember{padding-left:50px;}
