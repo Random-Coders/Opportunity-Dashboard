@@ -30,3 +30,8 @@ input#submit:hover{background-color:#04ff00;}
 .checkbox-label .checkbox-custom.circular::after{border-radius:50%;}
 .checkbox-label .checkbox-custom.circular::before{border-radius:50%;border:2px solid #252525;}
 .checkbox-label input:checked ~ .checkbox-custom.circular::before{border-radius:50%;}
+::-webkit-input-placeholder{ /* Edge */
+text-align:center;color:#252525;}
+:-ms-input-placeholder{ /* Internet Explorer 10-11 */
+text-align:center;color:#252525;}
+::placeholder{text-align:center;color:#252525;}
