@@ -3,7 +3,7 @@ from opportunity.dbmodels.commmodel import CommManager
 
 class Opportunity(object):
 
-    def __init__(self, opp_title=None, date=None, img_url=None, desc=None, link=None, topic=None, author=None):
+    def __init__(self, opp_title=None, date=None, img_url=None, desc=None, link=None, topic=None, author_name=None, authorid=None):
 
         self.db = connect("opportunity")
 
@@ -14,7 +14,8 @@ class Opportunity(object):
         self.desc = desc
         self.link = link
         self.topic = topic
-        self.author = author
+        self.author_name = author_name
+        self.authorid = authorid
 
     def add(self, opp_title, date, img_url, desc, link, topic, author):
         opp_obj = { 
