@@ -33,11 +33,10 @@ class Opportunity(object):
         result = opp_col.insert_one(opp_obj)
         # for now return status of db insert
         if result.inserted_id:
-            commmanager = CommManager()
-            commmanager.upcount(topic, result.inserted_id)
-            return True
-        else:
-            return False
+            #commmanager = CommManager()
+            #commmanager.upcount(topic, result.inserted_id)
+            return result
+        return None
 
     def load_all(self):
         return self.db.opps.find().sort("date", -1)
