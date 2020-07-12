@@ -57,8 +57,10 @@ def opportunityPost(_id):
 
 @app.route('/test')
 def test():
-    opp = Opportunity()
-    opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    comm = CommManager()
+    comm.create("hackathon", "code", "climbing")
+    # opp = Opportunity()
+    # opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
     return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])
