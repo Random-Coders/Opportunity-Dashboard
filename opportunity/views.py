@@ -2,7 +2,7 @@
 from opportunity import app, login_manager, bcrypt
 from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
-from opportunity.models.loginform import LoginForm
+from opportunity.forms import LoginForm, RegisterUser
 from opportunity.models.signupform import CreateUserForm
 from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
@@ -30,7 +30,7 @@ def signup():
     # Here we use a class of some kind to represent and validate our
     # client-side form data. For example, WTForms is a library that will
     # handle this for us, and we use a custom LoginForm to validate.
-    form = CreateUserForm()
+    form = RegisterUser()
     if form.validate_on_submit():
         print("hello", form.email.data)
 
