@@ -7,5 +7,6 @@
     {% endif %}
     {% if not current_user.is_authenticated %}
     <a href="{{ url_for('login') }}"><p>Login</p></a>
+    <a href="{{ url_for('signup') }}"><p>Signup</p></a>
     {% endif %}
 </nav>
