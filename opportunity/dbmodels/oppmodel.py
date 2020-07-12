@@ -6,7 +6,7 @@ class Opportunity(object):
 
         self.db = connect("opportunity")
 
-        # 
+        # ability to store properties in object
         self.opp_title = opp_title
         self.date = date
         self.img_url = img_url
