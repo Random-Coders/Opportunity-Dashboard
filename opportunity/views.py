@@ -2,6 +2,7 @@
 from opportunity import app, login_manager, bcrypt
 from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
+from opportunity.dbmodels.manager import connect
 from opportunity.forms import *
 from opportunity.methods.issafe import is_safe_url
 from opportunity.dbmodels.commmodel import CommManager
@@ -44,12 +45,12 @@ def create():
 def opportunityPost(_id):
     opp = Opportunity()
     posts = opp.load_all()
-    print(type(_id))
-    for post in posts:
-        print(type(post['_id']))
-        print(post['_id'] == ObjectId(_id))
-        if post['_id'] == ObjectId(_id):
-            return render_template('post.html', post=post)
+
+    # find opp post by id
+    post = connect('opportunity').opps.find({"_id" : ObjectId(_id)}).limit(1)[0]
+    if post:
+        return render_template('post.html', post=post) 
+
     flash('Post not found', 'error')
     return redirect(url_for('index'))
 
