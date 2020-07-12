@@ -67,23 +67,16 @@ def login():
             loguser = User.get_by_email(form.email.data)
             login_user(loguser, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
 
-        # Login and validate the user.
-        # user should be an instance of your `User` class
-        login_user(user)
-
-        flash('Logged in successfully.')
-
-        next = request.args.get('next')
         # is_safe_url should check if the url is safe for redirects.
         # See http://flask.pocoo.org/snippets/62/ for an example.
         if not is_safe_url(next):
             return abort(400)
 
-        return redirect(next or url_for('index'))
+        return redirect(next or url_for('login'))
     return render_template('login.html', form=form)
 
 @app.route('/logout', methods=['GET'])
