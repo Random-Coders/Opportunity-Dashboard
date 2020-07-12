@@ -21,9 +21,23 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index(): 
     opp = Opportunity()
-    opp.add("opp_title",datetime.now(), "img", "desc", "link", "topic", "author")
-    # return opp.load_spliced(3, 1)
-    return render_template('home.html')
+    #opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    posts = opp.load_recent_posts(10)
+    return render_template('home.html', posts=posts)
+
+
+@app.route('/opportunity/<_id>', methods=['GET'])
+def opportunityPost(_id):
+    opp = Opportunity()
+    post = opp.get_by_id(_id)
+    return render_template('post.html', post=post)
+
+
+@app.route('/test')
+def test():
+    opp = Opportunity()
+    opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    return redirect(url_for('index'))
 
 
 @app.route('/signup', methods=['GET', 'POST'])
