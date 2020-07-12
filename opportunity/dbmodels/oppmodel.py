@@ -3,7 +3,7 @@ from opportunity.dbmodels.commmodel import CommManager
 
 class Opportunity(object):
 
-    def __init__(self, opp_title=None, date=None, img_url=None, desc=None, link=None, topic=None, author=None):
+    def __init__(self, opp_title=None, date=None, img_url=None, desc=None, link=None, topic=None, author_name=None, authorid=None):
 
         self.db = connect("opportunity")
 
@@ -14,7 +14,8 @@ class Opportunity(object):
         self.desc = desc
         self.link = link
         self.topic = topic
-        self.author = author
+        self.author_name = author_name
+        self.authorid = authorid
 
     def add(self, opp_title, date, img_url, desc, link, topic, author):
         opp_obj = { 
@@ -32,11 +33,10 @@ class Opportunity(object):
         result = opp_col.insert_one(opp_obj)
         # for now return status of db insert
         if result.inserted_id:
-            commmanager = CommManager()
-            commmanager.upcount(topic, result.inserted_id)
-            return True
-        else:
-            return False
+            #commmanager = CommManager()
+            #commmanager.upcount(topic, result.inserted_id)
+            return result
+        return None
 
     def load_all(self):
         return self.db.opps.find().sort("date", -1)
@@ -47,10 +47,13 @@ class Opportunity(object):
         return self.db.opps.find().sort("date", -1).limit(num)
 
     def load_spliced(self, skip=0, batch_size=5):
-        test = self.db.opps.find().sort("date", -1).limit(batch_size).skip(skip)
-        for i in test:
-            print(i)
-        return 'as'
+        data = self.db.opps.find().sort("date", -1)
+        count = 0
+        for i in data:
+            count += 1
+        if int(skip) > count:
+            return None, None
+        return self.db.opps.find().sort("date", -1).limit(batch_size).skip(int(skip)), count
 
     def __repr__(self):
         return '<Opportunity {}>'.format(self.username)

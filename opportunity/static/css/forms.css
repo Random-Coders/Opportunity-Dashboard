@@ -1,4 +1,4 @@
-form{text-align:center;margin:20px auto;background-color:#005bff73;padding:35px;border-radius:15px;width:max-content;}
+form{text-align:center;margin:20px auto;background-color:#005bff73;padding:35px;border-radius:15px;width:max-content;min-width:300px;}
 @media (max-width:400px){
     form{padding:35px 5px;}
     .form-group{margin:20px auto 0 auto;width:200px;}

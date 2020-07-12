@@ -242,7 +242,7 @@ footer{background:#ddd;position:relative;}
 @media (min-height:700px){
   footer{bottom:0;width:100%;position:fixed;}
   nav{top:0;width:100%;position:fixed;}
-  body{background-color:#fff;width:100%;margin-bottom:78px;margin-top:55px;}
+  body{background-color:#fff;width:100%;margin-bottom:85px;margin-top:55px;}
 }
 .copyright{text-align:center;padding:15px 0 5px 0;margin:0 auto;max-width:90%;}
 .source-wrapper{text-align:center;padding-bottom:10px;}

@@ -9,6 +9,7 @@ from flask import render_template, make_response, url_for, send_file, abort, fla
 from flask_login import login_required, login_user, current_user, logout_user
 from datetime import datetime
 from bson.objectid import ObjectId
+from urllib.parse import urlparse
 
 '''
 Views
@@ -21,7 +22,7 @@ def load_user(id):
 
 
 @app.route('/', methods=['GET'])
-def index(): 
+def index():
     opp = Opportunity()
     # opp.add("opp_title",datetime.now(), "img", "desc", "link", "climbings", "author")
     # return opp.load_spliced(3, 1)
@@ -34,31 +35,115 @@ def index():
 
 
 @app.route('/create', methods=['GET'])
+@login_required
 def create():
     opp = Opportunity()
     posts = opp.load_recent_posts(10)
     return render_template('home.html', posts=posts, create=True)
 
 
+@app.route('/create/post', methods=['GET', 'POST'])
+@login_required
+def creatingpost():
+    form = CreateOpp()
+    if form.validate_on_submit():
+
+        urlCheck = urlparse(form.img.data)
+        urlCheck0 = urlparse(form.link.data)
+        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc and ('png' in form.img.data or 'jpg' in form.img.data or 'jpeg' in form.img.data or 'gif' in form.img.data or 'webp' in form.img.data):
+            opp = Opportunity()
+            result = opp.add(
+                form.title.data,
+                form.date.data,
+                form.img.data,
+                form.desc.data,
+                form.link.data,
+                form.topic.data,
+                current_user['title'],
+                current_user['_id'])
+            print(form.topic.data)
+            flash('Post created successfully', 'success')
+            return redirect(url_for('opportunityPost', _id=result.inserted_id))
+        flash('Error with creation. Link or image might not be a valid link', 'warning')
+        return render_template('postCreate.html', form=form)
+
+    #form.topic.choices = [(row['_id'], row['topic']) for row in State.query.all()]
+    form.topic.choices = [('choice','choice'),('choice2','choice2')]
+    form.date.data = datetime.now()
+    return render_template('postCreate.html', form=form, community=False, current_user=current_user)
+
+
+@app.route('/create/post/<community_id>', methods=['GET', 'POST'])
+@login_required
+def creatingpostcommunity(community_id):
+    form = CreateOpp()
+    if form.validate_on_submit():
+
+        urlCheck = urlparse(form.img.data)
+        urlCheck0 = urlparse(form.link.data)
+        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc and ('png' in form.img.data or 'jpg' in form.img.data or 'jpeg' in form.img.data or 'gif' in form.img.data or 'webp' in form.img.data):
+            opp = Opportunity()
+            result = opp.add(
+                form.title.data,
+                form.date.data,
+                form.img.data,
+                form.desc.data,
+                form.link.data,
+                community_id,
+                current_user['title'],
+                current_user['_id'])
+            flash('Post created successfully', 'success')
+            return redirect(url_for('opportunityPost', _id=result.inserted_id))
+        flash('Error with creation. Link or image might not be a valid link', 'warning')
+        return render_template('postCreate.html', form=form)
+
+    form.date.data = datetime.now()
+    return render_template('postCreate.html', form=form, community=True, current_user=current_user)
+
+
 @app.route('/opportunity/<_id>', methods=['GET'])
 def opportunityPost(_id):
+    try:
+        opp = Opportunity()
+        posts = opp.load_all()
+        for post in posts:
+            if post['_id'] == ObjectId(_id):
+                return render_template('post.html', post=post)
+        raise BaseException
+    except:
+        flash('Post not found', 'error')
+        return redirect(url_for('index'))
+
+
+@app.route('/posts', methods=['GET'])
+def posts():
     opp = Opportunity()
-    posts = opp.load_all()
-    print(type(_id))
-    for post in posts:
-        print(type(post['_id']))
-        print(post['_id'] == ObjectId(_id))
-        if post['_id'] == ObjectId(_id):
-            return render_template('post.html', post=post)
-    flash('Post not found', 'error')
-    return redirect(url_for('index'))
+    posts, size = opp.load_spliced(0, 9)
+    return render_template('posts.html', posts=posts, start=0)
+
+
+@app.route('/posts/<start>', methods=['GET'])
+def postsMore(start):
+    opp = Opportunity()
+    posts, size = opp.load_spliced(start, 9)
+    if posts:
+        return render_template('posts.html', posts=posts, start=start)
+    return redirect(url_for('posts'))
 
 
 @app.route('/test')
 def test():
     opp = Opportunity()
-    opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    opp.add(
+        "hello",
+        datetime.now(),
+        "https://rafael.sirv.com/Images/rafael.jpeg",
+        "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello",
+        "https://rafael.cenzano.com",
+        "topic",
+        "Rafael Cenzano")
     return redirect(url_for('index'))
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

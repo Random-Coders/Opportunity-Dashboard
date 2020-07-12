@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Post{% endblock %}
+
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flatpickr.min.css') }}">
+{% endblock %}
+
+{% block head_js %}
+    <script src="{{ url_for('static', filename='js/flatpickr.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="title">
+    <h1>Create Post</h1>
+</div>
+<div class="columns is-centered">
+    <div class="column is-half">
+        <form method="POST" action="">
+            <!-- Part of protecting the site from attacks -->
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+            {{ form.title.label(class="form-label-css") }}
+            <br>
+            {% if form.title.errors %}
+                {{ form.title(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.title.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.title() }}
+            {% endif %}
+            </div>
+            <div class="form-group">
+            {{ form.img.label(class="form-label-css") }}
+            <br>
+            {% if form.img.errors %}
+                {{ form.img(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.img.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.img() }}
+            {% endif %}
+            </div>
+            <div class="form-group">
+            {{ form.date.label(class="form-label-css") }}
+            <br>
+            {% if form.date.errors %}
+                {{ form.date(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.date.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.date() }}
+            {% endif %}
+            </div>
+            <div class="form-group">
+            {{ form.desc.label(class="form-label-css") }}
+            <br>
+            {% if form.desc.errors %}
+                {{ form.desc(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.desc.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.desc() }}
+            {% endif %}
+            </div>
+            <div class="form-group">
+            {{ form.link.label(class="form-label-css") }}
+            <br>
+            {% if form.link.errors %}
+                {{ form.link(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.link.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.link() }}
+            {% endif %}
+            </div>
+            {% if not community %}
+            <div class="form-group">
+            {{ form.topic.label(class="form-label-css") }}
+            <br>
+            {% if form.topic.errors %}
+                {{ form.topic(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.topic.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.topic() }}
+            {% endif %}
+            </div>
+            {% endif %}
+            <div class="form-group">
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+    <div class="column is-half">
+        <div class="post single">
+            <img src="https://rafael.sirv.com/Images/htcfavicon.png?png.optimize=true"" alt="temp post creation image">
+            <h3 id="title-text"></h3>
+            <h4>{{ current_user['title'] }}</h4>
+            <p><a href="#" class="link" id="link-text"></a></p>
+            <p id="desc-text"></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block trailing_js %}
+<script type="text/javascript">
+flatpickr("#date", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i:ss",
+});
+function postText(ta, other, type){
+    if(ta.value != ''){
+        other.innerText = ta.value;
+    }else{
+        other.innerText = "[Your " + type + " here]";
+    }
+    ta.addEventListener('input', () => {
+        if(ta.value != ''){
+            other.innerText = ta.value;
+        }else{
+            other.innerText = "[Your " + type + " here]";
+        }
+    });
+}
+postText(document.getElementById('title'),document.getElementById('title-text'),'title');
+postText(document.getElementById('link'),document.getElementById('link-text'),'link');
+postText(document.getElementById('desc'),document.getElementById('desc-text'),'description');
+</script>
+{% endblock %}
