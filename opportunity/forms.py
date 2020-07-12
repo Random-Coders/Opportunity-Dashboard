@@ -1,4 +1,4 @@
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateTimeField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateTimeField, TextAreaField, SelectField
 from flask_wtf import FlaskForm
 from wtforms.widgets import TextArea
 from wtforms.fields.html5 import EmailField
@@ -39,4 +39,12 @@ class RegisterUser(FlaskForm):
 
 
 class CreateOpp(FlaskForm):
-    title = StringField('Title',validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired(), Length(max=30,message='Title should be 30 characters or less')])
+    img = StringField('Image url', validators=[DataRequired()],
+                      render_kw={
+        "placeholder": "Enter an image url"})
+    date = DateTimeField('Start Time', validators=[DataRequired()])
+    desc = StringField('Description', validators=[DataRequired()])
+    link = StringField('Link')
+    topic = SelectField('Community', validators=[DataRequired()])
+    submit = SubmitField('Submit')
