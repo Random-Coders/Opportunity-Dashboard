@@ -19,19 +19,19 @@ class LoginForm(FlaskForm):
 
 class RegisterUser(FlaskForm):
     email = EmailField('Email address', [DataRequired(), Email()])
-    title = StringField(
+    name = StringField(
         'Name',
         validators=[
-            DataRequired(),
-            Length(
-                min=6,
-                message='Password must be over 6 characters long')],
+            DataRequired(),],
         render_kw={
             "placeholder": "Enter your name or organization"})
     password = PasswordField(
         'Password',
         validators=[
             DataRequired(),
+            Length(
+                min=6,
+                message='Password must be over 6 characters long'),
             EqualTo('confirm', message='Passwords must match')
         ])
     confirm = PasswordField('Repeat password')

@@ -6,6 +6,7 @@ from opportunity.forms import *
 from opportunity.methods.issafe import is_safe_url
 from flask import render_template, make_response, url_for, send_file, abort, flash, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
+from datetime import datetime
 
 '''
 Views
@@ -18,11 +19,10 @@ def load_user(id):
 
 
 @app.route('/', methods=['GET'])
-def index():
-    print(current_user)
-    #opp = Opportunity()
-    #print(opp.add("opp_title","date", "img", "desc", "link", "topic", "author"))
-
+def index(): 
+    opp = Opportunity()
+    opp.add("opp_title",datetime.now(), "img", "desc", "link", "topic", "author")
+    # return opp.load_spliced(3, 1)
     return render_template('home.html')
 
 
@@ -37,19 +37,19 @@ def signup():
     if form.validate_on_submit():
 
         email = form.email.data
-        title = form.title.data
+        name = form.name.data
         password = bcrypt.generate_password_hash(
             form.password.data).decode('utf-8')
 
         find_user = User.get_by_email(email)
 
         if find_user is None:
-            User.register(email, title, password)
+            User.register(email, name, password)
             login_user(User.get_by_email(email))
-            flash(f'Account created for {form.title.data}!', 'success')
+            flash(f'Account created for {form.name.data}!', 'success')
             return redirect(url_for('index'))
         else:
-            flash(f'Account already exists for {form.title.data}!', 'success')
+            flash(f'Account already exists for {form.name.data}!', 'success')
 
         return redirect(url_for('index'))
     return render_template('signup.html', form=form)
