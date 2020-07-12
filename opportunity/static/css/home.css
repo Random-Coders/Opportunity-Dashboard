@@ -8,9 +8,27 @@ h1 {
     margin: 10px auto;
     width: max-content;
     padding: 10px 35px;
-    background-color: #ff810094;
+    background-color: #ffa400c4;
     border-radius: 5px 70px;
 }
+
+.post {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 80%;
+    width: max-content;
+    background-color: #ccc;
+    padding: 10px;
+    border-radius: 10px;
+}
+.post h2 {
+    font-size: 200%;
+}
+.post p {
+    max-width: 80%;
+    margin: auto;
+}
+
 @media (max-width: 900px){
     h1{
         font-size: 7vw;
@@ -30,3 +48,13 @@ h1 {
         font-size: 40px;
     }
 }
+.red {
+    background-color: red;
+}
+.blue {
+    background-color: blue;
+}
+.green {
+    background-color: green;
+}
+

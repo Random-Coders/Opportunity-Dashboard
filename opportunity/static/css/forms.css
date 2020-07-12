@@ -24,9 +24,9 @@ input#submit:hover{background-color:#04ff00;}
 .checkbox-label input:checked ~ .checkbox-custom::before{left:-3px;top:-3px;width:24px;height:24px;border-radius:5px;-webkit-transform:scale(3);-ms-transform:scale(3);transform:scale(3);opacity:0;z-index:999;transition:all 0.3s ease-out;-webkit-transition:all 0.3s ease-out;-moz-transition:all 0.3s ease-out;-ms-transition:all 0.3s ease-out;-o-transition:all 0.3s ease-out;}
 
 /* Style for Circular Checkbox */
-.checkbox-label .checkbox-custom.circular{border-radius:50%;border:2px solid #000;}
-.checkbox-label input:checked ~ .checkbox-custom.circular{background-color:#00ff0794;border-radius:50%;border:2px solid #000;}
+.checkbox-label .checkbox-custom.circular{border-radius:50%;border:2px solid #252525;}
+.checkbox-label input:checked ~ .checkbox-custom.circular{background-color:#00ff0794;border-radius:50%;border:2px solid #252525;}
 .checkbox-label input:checked ~ .checkbox-custom.circular::after{border:solid #0067FF;border-width:0 2px 2px 0;}
 .checkbox-label .checkbox-custom.circular::after{border-radius:50%;}
-.checkbox-label .checkbox-custom.circular::before{border-radius:50%;border:2px solid #000;}
+.checkbox-label .checkbox-custom.circular::before{border-radius:50%;border:2px solid #252525;}
 .checkbox-label input:checked ~ .checkbox-custom.circular::before{border-radius:50%;}
