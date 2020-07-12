@@ -46,5 +46,14 @@ class Opportunity(object):
             print(i)
         return 'as'
 
+    @classmethod
+    def get_by_id(cls, _id):
+        print(_id)
+        db = connect("opportunity")
+        data = db.opps.find_one({"_id": _id})
+        if data is not None:
+            return cls(**data)
+        return None
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
