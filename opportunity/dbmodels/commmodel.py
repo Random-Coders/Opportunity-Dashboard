@@ -41,8 +41,12 @@ class CommManager(object):
 
         opp_ids = [opp['post_id'] for opp in toptopic]
 
+        opp_posts = []
+
         opp_col = connect('opportunity').opps
         for _id in opp_ids:
-            print(opp_col.find_one({"_id": _id}))
+            opp_posts.append(opp_col.find_one({"_id": _id}))
+
+        return opp_posts
 
 
