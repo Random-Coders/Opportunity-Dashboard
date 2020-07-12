@@ -2,22 +2,54 @@
 
 {% block title %}Login{% endblock %}
 
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
 {% block content %}
-
-	<h1>Login</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=32) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
-
-
+<form method="POST" action="">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">Log in</h2>
+    <div class="form-group">
+        <div class="checkbox-container circular-container">
+            {{ form.remember.label(class="form-label-css remember") }}
+            <label class="checkbox-label">
+                {{ form.remember() }}
+                <span class="checkbox-custom circular"></span>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+    {{ form.email.label(class="form-label-css") }}
+    <br>
+    {% if form.email.errors %}
+        {{ form.email(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.email() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.password.label(class="form-label-css") }}
+    <br>
+    {% if form.password.errors %}
+        {{ form.password(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.password() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
 {% endblock %}
