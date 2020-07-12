@@ -2,7 +2,7 @@ from opportunity.dbmodels.manager import connect
 
 class CommManager(object):
 
-    def __init__(self, opp_title=None, date=None, img_url=None, desc=None, link=None, topic=None, author=None):
+    def __init__(self):
 
         self.db = connect("community")
 
@@ -12,25 +12,24 @@ class CommManager(object):
         # start a collection
         topic_col = self.db.topic
 
-        addtopic = topic_col.find_one(topic_col) 
+        addtopic = topic_col.find_one("topic": topic)
 
-        result = opp_col.insert_one(opp_obj)
-        # for now return status of db insert
-        if result.inserted_id:
-            return True
+        if addtopic is None:
+            comm_obj = {
+                "topic": topic,
+                "count": 0,
+                "post_id": post_id
+            }
+            topic_col.insert_one(comm_obj)
+
+            print(f"Successfully added the topic {topic}")
         else:
-            return False
+            comm_obj = {
+                "topic": topic,
+                "count": addtopic['count'] + 1,
+                "post_id": post_id
+            }
+            query = {"topic": topic}
+            topic_col.update(query, {"$set": comm_obj})
 
-    def load_recent_posts(self, num=1):
-        # returns a cursor but data can be accessed through a for loop or through indices
-        # load the most recent posts going up to num
-        return self.db.opps.find().sort("date", -1).limit(num)
-
-    def load_spliced(self, skip=0, batch_size=5):
-        test = self.db.opps.find().sort("date", -1).limit(batch_size).skip(skip)
-        for i in test:
-            print(i)
-        return 'as'
-
-    def __repr__(self):
-        return '<User {}>'.format(self.username)
+            print(f"Successfully updated the topic {topic}")
