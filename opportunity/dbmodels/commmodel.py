@@ -6,6 +6,18 @@ class CommManager(object):
 
         self.db = connect("community")
 
+
+    def create(self, title, desc, topic):
+        comm_obj = {
+                "title": title,
+                "description": desc,
+                "topic": topic,
+                "count": 1,
+                "follow": 1,
+                "post_id": ""
+            }
+        topic_col.insert_one(comm_obj)
+
     def upcount(self, topic, post_id):
         # get's the topic and post id of the most recent post in a community
 
@@ -16,8 +28,11 @@ class CommManager(object):
 
         if addtopic is None:
             comm_obj = {
+                "title": title,
+                "description": desc,
                 "topic": topic,
                 "count": 1,
+                "follow": 1,
                 "post_id": post_id
             }
             topic_col.insert_one(comm_obj)
@@ -25,8 +40,11 @@ class CommManager(object):
             print(f"Successfully added the topic {topic}")
         else:
             comm_obj = {
+                "title": title,
+                "description": desc,
                 "topic": topic,
                 "count": addtopic['count'] + 1,
+                "follow": addtopic['follow'],
                 "post_id": post_id
             }
             query = {"topic": topic}
