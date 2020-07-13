@@ -12,6 +12,7 @@
 </div>
 <div class="description-title">
     <h2>{{ comm['description'] }}</h2>
+    {% if current_user.is_authenticated %}<p><a href="{{ url_for('editcom', _id=comm['_id']) }}">Edit</a></p>{% endif %}
 </div>
 <div class="columns is-multiline is-centered">
     {% for post in posts %}
