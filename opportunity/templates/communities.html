@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Communities{% endblock %}
+
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="title">
+    <h1>Communities</h1>
+</div>
+<div class="columns is-centered communities push is-multiline">
+    {% for comm in communities %}
+    <div class="column is-12 listcommunity" onclick="window.location.href='{{ url_for('communityPost', _id=comm['_id']) }}'">
+        <div class="columns is-mobile">
+            <div class="column">
+                <img class="comimage" src="{{ comm['img'] }}" alt="{{ comm['title'] }} image">
+            </div>
+            <div class="column is-10">
+                <h3>{{ comm['title'] }}</h3>
+                <p>{% if comm['description']|length <= 100 %}{{ comm['description'] }}{% else %}{{ comm['description'][:100] }}...{% endif %}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

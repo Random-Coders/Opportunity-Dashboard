@@ -63,6 +63,11 @@ class CommManager(object):
     def load_all(self):
         return self.db.comm.find()
 
+
+    def load_all_highest(self):
+        return self.db.comm.find().sort('count', -1)
+
+
     def edit(self, identification, thing, value):
         item = { "_id" : identification }
         newvalues = { "$set": { thing : value } }

@@ -228,6 +228,16 @@ def posts():
         'posts.html',
         posts=posts)
 
+
+@app.route('/communities', methods=['GET'])
+def communities():
+
+    comm = CommManager()
+    communities = comm.load_all_highest()
+    return render_template(
+        'communities.html',
+        communities=communities)
+
 '''
 @app.route('/posts/<start>', methods=['GET'])
 def postsMore(start):
