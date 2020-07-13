@@ -58,13 +58,7 @@ class Opportunity(object):
         return self.db.opps.find().sort("date", -1).limit(num)
 
     def load_spliced(self, skip=0, batch_size=5):
-        data = self.db.opps.find().sort("date", -1)
-        count = 0
-        for i in data:
-            count += 1
-        if int(skip) > count:
-            return None, None
-        return self.db.opps.find().sort("date", -1).limit(batch_size).skip(int(skip)), count
+        return self.db.opps.find().sort("date", -1).limit(batch_size).skip(int(skip))
 
     def __repr__(self):
         return '<Opportunity {}>'.format(self.username)
