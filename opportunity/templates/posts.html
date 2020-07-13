@@ -10,17 +10,7 @@
 <div class="title">
     <h1>Opportunity Dashboard</h1>
 </div>
-<div class="columns is-centered">
-    <div class="column is-half paginate">
-        <div class="item"><a href="{{ url_for('posts') }}">0</a></div>
-        {% if startBig %}<div class="item"><a href="{{ url_for('postsMore', start=start-1) }}">{{ start - 1 }}</a></div>{% endif %}
-        {% if startZero %}<div class="item"><a href="#">{{ start }}</a></div>{% endif %}
-        {% if startCountCheck %}<div class="item"><a href="{{ url_for('postsMore', start=start+1) }}">{{ start + 1 }}</a></div>{% endif %}
-        {% if startCountCheck %}<div class="item"><a href="{{ url_for('postsMore', start=count) }}">{{ count }}</a></div>{% endif %}
-    </div>
-</div>
 <div class="columns is-multiline is-centered">
-    {% if posts %}
     {% for post in posts %}
     <div class="column is-half-tablet is-one-third-widescreen">
         <div class="post" onclick="window.location.href='{{ url_for('opportunityPost', _id=post['_id']) }}'">
@@ -31,13 +21,5 @@
         </div>
     </div>
     {% endfor %}
-    {% else %}
-    <div class="column is-full">
-        <div class="post">
-            <img src="https://rafael.sirv.com/Images/htcfavicon.png?png.optimize=true" alt="no posts image">
-            <h3>There are no posts</h3>
-        </div>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}
