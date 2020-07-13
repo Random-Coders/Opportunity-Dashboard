@@ -46,6 +46,8 @@ class CommManager(object):
             }
             comm_col.update({'_id': comm['_id']}, {"$set" : comm_obj})
 
+    def load_all(self):
+        return self.db.comm.find()
 
 
     def getleaders(self, top=3):
