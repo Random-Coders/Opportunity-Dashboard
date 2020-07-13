@@ -20,7 +20,7 @@ login_manager.login_message_category = 'warning'
 # Create client for Mongodb
 client = MongoClient()
 # connect to local host
-client = MongoClient('localhost', 27017)
+client = MongoClient(Config.URI)
 
 # Import all views
 import opportunity.views
