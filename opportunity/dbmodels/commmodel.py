@@ -1,4 +1,5 @@
 from opportunity.dbmodels.manager import connect
+from bson.objectid import ObjectId
 
 class CommManager(object):
 
@@ -7,7 +8,7 @@ class CommManager(object):
         self.db = connect("community")
 
 
-    def create(self, title, desc, topic, img):
+    def create(self, title, desc, img):
 
         # start a comm collection
         comm_col = self.db.comm
@@ -16,38 +17,61 @@ class CommManager(object):
                 "title": title,
                 "description": desc,
                 "img": img,
-                "topic": topic,
                 "count": 0,
                 "follow": 0,
-                "post_id": None
             }
         comm_col.insert_one(comm_obj)
 
-        print(f"Successfully added the community {topic}")
-
-    def upcount(self, topic, post_id):
+    def upcount(self, _id):
         # get's the comm and post id of the most recent post in a community
 
         # start a collection
-        comm_col = self.db.comm
+        comms = self.load_all()
+        identification = ObjectId(_id)
 
-        # find all communities with topic
-        comm_list = comm_col.find({"topic": topic})
+        for comm in comms:
+            if identification == comm['_id']:
+                comm_obj = {
+                    "title": comm['title'],
+                    "description": comm['description'],
+                    "img": comm['img'],
+                    "count": comm['count']+1,
+                    "follow": comm['follow'],
+                }
+                self.db.comm.update_one({'_id': comm['_id']}, {"$set" : comm_obj})
+                break
 
-        for comm in comm_list:
-            comm_obj = {
-                "title": comm['title'],
-                "description": comm['description'],
-                "topic": topic,
-                "img": comm['img']
-                "count": comm['count']+1,
-                "follow": comm['follow'],
-                "post_id": post_id
-            }
-            comm_col.update({'_id': comm['_id']}, {"$set" : comm_obj})
+    def downcount(self, _id):
+        # get's the comm and post id of the most recent post in a community
+
+        # start a collection
+        comms = self.load_all()
+        identification = ObjectId(_id)
+
+        for comm in comms:
+            if identification == comm['_id']:
+                comm_obj = {
+                    "title": comm['title'],
+                    "description": comm['description'],
+                    "img": comm['img'],
+                    "count": comm['count']-1,
+                    "follow": comm['follow'],
+                }
+                self.db.comm.update_one({'_id': comm['_id']}, {"$set" : comm_obj})
+                break
 
     def load_all(self):
         return self.db.comm.find()
+
+    def edit(self, identification, thing, value):
+        item = { "_id" : identification }
+        newvalues = { "$set": { thing : value } }
+
+        self.db.comm.update_one(item, newvalues)
+
+
+    def getTop(self, top=3):
+        return self.db.comm.find().sort('count', -1).limit(top)
 
 
     def getleaders(self, top=3):
