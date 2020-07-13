@@ -14,7 +14,7 @@
     <div class="column is-half-tablet is-one-third-widescreen">
         <div class="post single">
             <img src="{{ post['imgurl'] }}" alt="{{ post['title'] }} image">
-            {% if current_user._id == post['authorid'] %}<p><a href="{{ url_for('editpost', _id=post['_id']) }}">Edit</a></p>{% endif %}
+            {% if current_user.is_authenticated %}{% if current_user._id == post['authorid'] %}<p><a href="{{ url_for('editpost', _id=post['_id']) }}">Edit</a></p>{% endif %}{% endif %}
             <h3>{{ post['title'] }}</h3>
             <h4>{{ post['authorname'] }}</h4>
             {% if post['link'] %}<p><a href="{{ post['link'] }}" target="_blank" rel="noopener">{{ post['link'] }}</a></p>{% endif %}

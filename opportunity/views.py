@@ -25,28 +25,75 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index():
     opp = Opportunity()
-    opp.add("opp_title",datetime.now(), "img", "desc", "link", "coding", "author")
-    # return opp.load_spliced(3, 1)
     comm = CommManager()
-    comm.getleaders()
-
-    #opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
+    comms = comm.getTop(5)
     posts = opp.load_recent_posts(9)
-    return render_template('home.html', posts=posts, create=False)
+    return render_template('home.html', posts=posts, comm=comms, create=True)
 
 
-@app.route('/create', methods=['GET'])
+@app.route('/create/community', methods=['GET','POST'])
 @login_required
-def create():
-    opp = Opportunity()
-    posts = opp.load_recent_posts(9)
-    return render_template('home.html', posts=posts, create=True)
+def createcom():
+    form = CreateCom()
+    if form.validate_on_submit():
+        comm = CommManager()
+        comms = comm.load_all()
+        for com in comms:
+            if com['title'] == form.title.data:
+                flash('Can\'t have the 2 of the same Communitites', 'warning')
+                return render_template('createCom.html', edit=False, form=form)
+        comm.create(form.title.data,form.desc.data,form.img.data)
+        flash('Community created', 'success')
+        return redirect(url_for('index'))
+    return render_template('createCom.html', edit=False, form=form)
+
+
+@app.route('/edit/community/<_id>', methods=['GET','POST'])
+@login_required
+def editcom(_id):
+    form = CreateCom()
+    comm = CommManager()
+    identification = ObjectId(_id)
+    comms = comm.load_all()
+    for com in comms:
+        if com['_id'] == identification:
+            if request.method == 'POST':
+                comm.edit(identification, 'title', form.title.data)
+                comm.edit(identification, 'img', form.img.data)
+                comm.edit(identification, 'description', form.desc.data)
+                flash('Post editied successfully', 'success')
+                return redirect(
+                    url_for(
+                        'communityPost',
+                        _id=identification))
+
+            form.title.data = com['title']
+            form.img.data = com['img']
+            form.desc.data = com['description']
+            return render_template('createCom.html', edit=False, form=form)
+    flash('Community couldn\'t be edited', 'warning')
+    return render_template('createCom.html', edit=False, form=form)
+
+
+@app.route('/community/<_id>', methods=['GET'])
+def communityPost(_id):
+    try:
+        # find opp post by id
+        comm = connect('community').comm.find({"_id" : ObjectId(_id)}).limit(1)[0]
+        if comm:
+            posts = connect('opportunity').opps.find({"topic" : ObjectId(_id)})
+            return render_template('community.html', comm=comm, posts=posts)
+        raise BaseException
+    except BaseException:
+        flash('Community not found', 'error')
+        return redirect(url_for('index'))
 
 
 @app.route('/create/post', methods=['GET', 'POST'])
 @login_required
 def creatingpost():
     form = CreateOpp()
+    comm = CommManager()
     if request.method == 'POST':
 
         urlCheck = urlparse(form.img.data)
@@ -62,14 +109,14 @@ def creatingpost():
                 form.topic.data,
                 current_user.title,
                 current_user._id)
+            comm.upcount(form.topic.data)
             flash('Post created successfully', 'success')
             return redirect(url_for('opportunityPost', _id=result.inserted_id))
         flash(
             'Error with creation. Link or image might not be a valid link',
             'warning')
 
-    #form.topic.choices = [(row['_id'], row['topic']) for row in State.query.all()]
-    form.topic.choices = [('choice', 'choice'), ('choice2', 'choice2')]
+    form.topic.choices = [(row['_id'], row['title']) for row in comm.load_all()]
     form.date.data = datetime.now()
     return render_template(
         'postCreate.html',
@@ -83,6 +130,7 @@ def creatingpost():
 def editpost(_id):
     form = CreateOpp()
     opp = Opportunity()
+    comm = CommManager()
     identification = ObjectId(_id)
     posts = opp.load_all()
     for post in posts:
@@ -92,12 +140,14 @@ def editpost(_id):
                     urlCheck = urlparse(form.img.data)
                     urlCheck0 = urlparse(form.link.data)
                     if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc:
+                        comm.downcount(post['topic'])
                         opp.edit(identification, 'title', form.title.data)
                         opp.edit(identification, 'date', form.date.data)
                         opp.edit(identification, 'imgurl', form.img.data)
                         opp.edit(identification, 'desc', form.desc.data)
                         opp.edit(identification, 'link', form.link.data)
                         opp.edit(identification, 'topic', form.topic.data)
+                        comm.upcount(form.topic.data)
                         flash('Post editied successfully', 'success')
                         return redirect(
                             url_for(
@@ -113,8 +163,7 @@ def editpost(_id):
                     form.desc.data = post['desc']
                     form.link.data = post['link']
                     form.topic.data = post['topic']
-                form.topic.choices = [
-                        ('choice', 'choice'), ('choice2', 'choice2')]
+                form.topic.choices = [(row['_id'], row['title']) for row in comm.load_all()]
                 return render_template(
                     'postCreate.html',
                     form=form,
@@ -122,7 +171,7 @@ def editpost(_id):
                     current_user=current_user,
                     edit=True,
                     _id=_id)
-    flash('Post couldn\'t be editied', 'warning')
+    flash('Post couldn\'t be edited', 'warning')
     return redirect(url_for('index'))
 
 
@@ -132,6 +181,7 @@ def editpost(_id):
 def deletepost(_id):
     identification = ObjectId(_id)
     opp = Opportunity()
+    comm = CommManager()
     posts = opp.load_all()
     for post in posts:
         if post['_id'] == identification:
@@ -142,6 +192,7 @@ def deletepost(_id):
                     if User.login_valid(
                             current_user.email, form.password.data):
                         opp.delete(identification)
+                        comm.downcount(post['topic'])
                         flash(f'Deleted {title}')
                         return redirect(url_for('index'))
                     flash('Incorrect Password', 'warning')
@@ -151,41 +202,6 @@ def deletepost(_id):
                     message=f'I confirm I want to delete {title}')
     flash('Post can\'t be deleted', 'warning')
     return redirect(url_for('index'))
-
-
-@app.route('/create/post/<community_id>', methods=['GET', 'POST'])
-@login_required
-def creatingpostcommunity(community_id):
-    form = CreateOpp()
-    if request.method == 'POST':
-
-        urlCheck = urlparse(form.img.data)
-        urlCheck0 = urlparse(form.link.data)
-        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc and (
-                'png' in form.img.data or 'jpg' in form.img.data or 'jpeg' in form.img.data or 'gif' in form.img.data or 'webp' in form.img.data):
-            opp = Opportunity()
-            result = opp.add(
-                form.title.data,
-                form.date.data,
-                form.img.data,
-                form.desc.data,
-                form.link.data,
-                community_id,
-                current_user['title'],
-                current_user['_id'])
-            flash('Post created successfully', 'success')
-            return redirect(url_for('opportunityPost', _id=result.inserted_id))
-        flash(
-            'Error with creation. Link or image might not be a valid link',
-            'warning')
-        return render_template('postCreate.html', form=form)
-
-    form.date.data = datetime.now()
-    return render_template(
-        'postCreate.html',
-        form=form,
-        community=True,
-        current_user=current_user)
 
 
 @app.route('/opportunity/<_id>', methods=['GET'])
@@ -207,26 +223,11 @@ def posts():
 
     opp = Opportunity()
     posts = opp.load_all()
-    size = 0
-    for i in posts:
-        size += 1
-    count = size // 9
-    startBig = 0 > 1
-    startZero = False
-    startCountCheck = count > 0 and 0 + 1 < count
-    startCount = count > 0
-    postsDone = opp.load_spliced(0,9)
     return render_template(
         'posts.html',
-        posts=postsDone,
-        start=0,
-        count=count,
-        startBig=startBig,
-        startZero=startZero,
-        startCountCheck=startCountCheck,
-        startCount=startCount)
+        posts=posts)
 
-
+'''
 @app.route('/posts/<start>', methods=['GET'])
 def postsMore(start):
     try:
@@ -257,7 +258,7 @@ def postsMore(start):
             startCountCheck=startCountCheck,
             startCount=startCountCheck)
     return redirect(url_for('posts'))
-
+'''
 
 @app.route('/test')
 def test():
@@ -322,8 +323,11 @@ def login():
         if User.login_valid(form.email.data, form.password.data):
             loguser = User.get_by_email(form.email.data)
             login_user(loguser, remember=form.remember.data)
-            flash('You have been logged in!', 'success')
-            return redirect(url_for('index'))
+            next_page = request.args.get('next')
+
+            flash(f'Logged in successfully.', 'success')
+            return redirect(next_page) if next_page else redirect(
+                url_for('index'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'warning')
 
