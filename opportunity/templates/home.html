@@ -48,7 +48,7 @@
             <div class="community" onclick="window.location.href='{{ url_for('communityPost', _id=community['_id']) }}'">
                 <img src="{{ community['img'] }}" alt="{{ community['title'] }} image">
                 <h3>{{ community['title'] }}</h3>
-                <p>{% if community['description']|length <= 30 %}{{ community['description'] }}{% else %}{{ community['description'][:30] }}...{% endif %}</p>
+                <p>{% if community['description']|length <= 50 %}{{ community['description'] }}{% else %}{{ community['description'][:50] }}...{% endif %}</p>
             </div>
             {% endfor %}
         </div>
