@@ -59,3 +59,20 @@ class CreateOpp(FlaskForm):
 class ConfirmPassword(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Confirm')
+
+
+class CreateCom(FlaskForm):
+    title = StringField(
+        'Title',
+        validators=[
+            DataRequired(),
+            Length(
+                max=30,
+                message='Title should be 30 characters or less')])
+    img = StringField('Image url', validators=[DataRequired()],
+                      render_kw={
+        "placeholder": "Enter an image url"})
+    desc = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
