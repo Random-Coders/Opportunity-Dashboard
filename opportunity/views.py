@@ -2,6 +2,7 @@
 from opportunity import app, login_manager, bcrypt
 from opportunity.dbmodels.oppmodel import Opportunity
 from opportunity.dbmodels.usermodel import User
+from opportunity.dbmodels.manager import connect
 from opportunity.forms import *
 from opportunity.methods.issafe import is_safe_url
 from opportunity.dbmodels.commmodel import CommManager
@@ -24,7 +25,7 @@ def load_user(id):
 @app.route('/', methods=['GET'])
 def index():
     opp = Opportunity()
-    # opp.add("opp_title",datetime.now(), "img", "desc", "link", "climbings", "author")
+    opp.add("opp_title",datetime.now(), "img", "desc", "link", "coding", "author")
     # return opp.load_spliced(3, 1)
     comm = CommManager()
     comm.getleaders()
@@ -191,10 +192,10 @@ def creatingpostcommunity(community_id):
 def opportunityPost(_id):
     try:
         opp = Opportunity()
-        posts = opp.load_all()
-        for post in posts:
-            if post['_id'] == ObjectId(_id):
-                return render_template('post.html', post=post)
+        # find opp post by id
+        post = connect('opportunity').opps.find({"_id" : ObjectId(_id)}).limit(1)[0]
+        if post:
+            return render_template('post.html', post=post)    
         raise BaseException
     except BaseException:
         flash('Post not found', 'error')
@@ -203,6 +204,7 @@ def opportunityPost(_id):
 
 @app.route('/posts', methods=['GET'])
 def posts():
+
     opp = Opportunity()
     posts = opp.load_all()
     size = 0
@@ -259,6 +261,10 @@ def postsMore(start):
 
 @app.route('/test')
 def test():
+    # comm = CommManager()
+    # comm.create("second climber", "climb higher", "coding")
+    # print(comm.getleaders())
+
     opp = Opportunity()
     opp.add(
         "hello",
