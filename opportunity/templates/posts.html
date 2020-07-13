@@ -10,6 +10,15 @@
 <div class="title">
     <h1>Opportunity Dashboard</h1>
 </div>
+<div class="columns is-centered">
+    <div class="column is-half paginate">
+        <div class="item"><a href="{{ url_for('posts') }}">0</a></div>
+        {% if startBig %}<div class="item"><a href="{{ url_for('postsMore', start=start-1) }}">{{ start - 1 }}</a></div>{% endif %}
+        {% if startZero %}<div class="item"><a href="#">{{ start }}</a></div>{% endif %}
+        {% if startCountCheck %}<div class="item"><a href="{{ url_for('postsMore', start=start+1) }}">{{ start + 1 }}</a></div>{% endif %}
+        {% if startCountCheck %}<div class="item"><a href="{{ url_for('postsMore', start=count) }}">{{ count }}</a></div>{% endif %}
+    </div>
+</div>
 <div class="columns is-multiline is-centered">
     {% if posts %}
     {% for post in posts %}
@@ -17,7 +26,7 @@
         <div class="post" onclick="window.location.href='{{ url_for('opportunityPost', _id=post['_id']) }}'">
             <img src="{{ post['imgurl'] }}" alt="{{ post['title'] }} image">
             <h3>{{ post['title'] }}</h3>
-            <h4>{{ post['author'] }}</h4>
+            <h4>{{ post['authorname'] }}</h4>
             <p>{% if post['desc']|length <= 100 %}{{ post['desc'] }}{% else %}{{ post['desc'][:100] }}...{% endif %}</p>
         </div>
     </div>
