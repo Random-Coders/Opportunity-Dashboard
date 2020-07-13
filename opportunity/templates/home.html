@@ -13,13 +13,13 @@
 {% if create %}
 <div class="columns is-multiline">
     <div class="column">
-        <div class="create">
-            <h2><a href="#">Create a Community</a></h2>
+        <div class="create" onclick="window.location.href='{{ url_for('createcom') }}'">
+            <h2>Create a Community</h2>
         </div>
     </div>
     <div class="column">
-        <div class="create">
-            <h2><a href="{{ url_for('creatingpost') }}">Create a Post</a></h2>
+        <div class="create" onclick="window.location.href='{{ url_for('creatingpost') }}'">
+            <h2>Create a Post</h2>
         </div>
     </div>
 </div>
@@ -28,37 +28,29 @@
     <div class="column is-three-quarters-desktop is-full-tablet">
         <h2 class="heading">Posts:</h2>
         <div class="columns is-multiline is-centered">
-            {% if posts %}
             {% for post in posts %}
             <div class="column is-half-tablet is-one-third-widescreen">
                 <div class="post" onclick="window.location.href='{{ url_for('opportunityPost', _id=post['_id']) }}'">
                     <img src="{{ post['imgurl'] }}" alt="{{ post['title'] }} image">
                     <h3>{{ post['title'] }}</h3>
                     <h4>{{ post['author_name'] }}</h4>
+                    {% if post['link'] %}<p><a href="{{ post['link'] }}" target="_blank" rel="noopener">{{ post['link'] }}</a></p>{% endif %}
                     <p>{% if post['desc']|length <= 100 %}{{ post['desc'] }}{% else %}{{ post['desc'][:100] }}...{% endif %}</p>
                 </div>
             </div>
             {% endfor %}
-            {% else %}
-            <div class="column is-full">
-                <div class="post">
-                    <img src="https://rafael.sirv.com/Images/htcfavicon.png?png.optimize=true" alt="no posts image">
-                    <h3>There are no posts</h3>
-                </div>
-            </div>
-            {% endif %}
         </div>
     </div>
     <div class="column is-one-full-tablet is-one-quarter-desktop">
         <h2 class="heading">Communities:</h2>
         <div class="communities">
-            <div class="community">
-                <a href="#">
-                    <img src="https://rafael.sirv.com/Images/rafael.jpeg">
-                    <h3>Bio Internships</h3>
-                    <p>50 character mini descriptiona sd asdasd sad sadas</p>
-                </a>
+            {% for community in comm %}
+            <div class="community" onclick="window.location.href='{{ url_for('communityPost', _id=community['_id']) }}'">
+                <img src="{{ community['img'] }}" alt="{{ community['title'] }} image">
+                <h3>{{ community['title'] }}</h3>
+                <p>{% if community['description']|length <= 50 %}{{ community['description'] }}{% else %}{{ community['description'][:50] }}...{% endif %}</p>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
