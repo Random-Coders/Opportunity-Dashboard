@@ -7,3 +7,6 @@ venv/
 __pycache__/
 
 .vscode
+
+# Hide secrets
+secret.py
