@@ -30,7 +30,7 @@ def index():
     comm.getleaders()
 
     #opp.add("hello",datetime.now(), "https://rafael.sirv.com/Images/rafael.jpeg", "desc hello", "https://rafael.cenzano.com", "topic", "Rafael Cenzano")
-    posts = opp.load_recent_posts(10)
+    posts = opp.load_recent_posts(9)
     return render_template('home.html', posts=posts, create=False)
 
 
@@ -38,7 +38,7 @@ def index():
 @login_required
 def create():
     opp = Opportunity()
-    posts = opp.load_recent_posts(10)
+    posts = opp.load_recent_posts(9)
     return render_template('home.html', posts=posts, create=True)
 
 
@@ -46,11 +46,11 @@ def create():
 @login_required
 def creatingpost():
     form = CreateOpp()
-    if form.validate_on_submit():
+    if request.method == 'POST':
 
         urlCheck = urlparse(form.img.data)
         urlCheck0 = urlparse(form.link.data)
-        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc and ('png' in form.img.data or 'jpg' in form.img.data or 'jpeg' in form.img.data or 'gif' in form.img.data or 'webp' in form.img.data):
+        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc:
             opp = Opportunity()
             result = opp.add(
                 form.title.data,
@@ -59,29 +59,109 @@ def creatingpost():
                 form.desc.data,
                 form.link.data,
                 form.topic.data,
-                current_user['title'],
-                current_user['_id'])
-            print(form.topic.data)
+                current_user.title,
+                current_user._id)
             flash('Post created successfully', 'success')
             return redirect(url_for('opportunityPost', _id=result.inserted_id))
-        flash('Error with creation. Link or image might not be a valid link', 'warning')
-        return render_template('postCreate.html', form=form)
+        flash(
+            'Error with creation. Link or image might not be a valid link',
+            'warning')
 
     #form.topic.choices = [(row['_id'], row['topic']) for row in State.query.all()]
-    form.topic.choices = [('choice','choice'),('choice2','choice2')]
+    form.topic.choices = [('choice', 'choice'), ('choice2', 'choice2')]
     form.date.data = datetime.now()
-    return render_template('postCreate.html', form=form, community=False, current_user=current_user)
+    return render_template(
+        'postCreate.html',
+        form=form,
+        community=False,
+        current_user=current_user)
+
+
+@app.route('/edit/post/<_id>', methods=['GET', 'POST'])
+@login_required
+def editpost(_id):
+    form = CreateOpp()
+    opp = Opportunity()
+    identification = ObjectId(_id)
+    posts = opp.load_all()
+    for post in posts:
+        if post['_id'] == identification:
+            if current_user._id == post['authorid']:
+                if request.method == 'POST':
+                    urlCheck = urlparse(form.img.data)
+                    urlCheck0 = urlparse(form.link.data)
+                    if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc:
+                        opp.edit(identification, 'title', form.title.data)
+                        opp.edit(identification, 'date', form.date.data)
+                        opp.edit(identification, 'imgurl', form.img.data)
+                        opp.edit(identification, 'desc', form.desc.data)
+                        opp.edit(identification, 'link', form.link.data)
+                        opp.edit(identification, 'topic', form.topic.data)
+                        flash('Post editied successfully', 'success')
+                        return redirect(
+                            url_for(
+                                'opportunityPost',
+                                _id=identification))
+                    flash(
+                        'Error with creation. Link or image might not be a valid link',
+                        'warning')
+                else:
+                    form.date.data = post['date']
+                    form.title.data = post['title']
+                    form.img.data = post['imgurl']
+                    form.desc.data = post['desc']
+                    form.link.data = post['link']
+                    form.topic.data = post['topic']
+                form.topic.choices = [
+                        ('choice', 'choice'), ('choice2', 'choice2')]
+                return render_template(
+                    'postCreate.html',
+                    form=form,
+                    community=False,
+                    current_user=current_user,
+                    edit=True,
+                    _id=_id)
+    flash('Post couldn\'t be editied', 'warning')
+    return redirect(url_for('index'))
+
+
+@app.route('/delete/post/<_id>', methods=['GET', 'POST'])
+@app.route('/post/delete/<_id>', methods=['GET', 'POST'])
+@login_required
+def deletepost(_id):
+    identification = ObjectId(_id)
+    opp = Opportunity()
+    posts = opp.load_all()
+    for post in posts:
+        if post['_id'] == identification:
+            if current_user._id == post['authorid']:
+                form = ConfirmPassword()
+                title = post['title']
+                if form.validate_on_submit():
+                    if User.login_valid(
+                            current_user.email, form.password.data):
+                        opp.delete(identification)
+                        flash(f'Deleted {title}')
+                        return redirect(url_for('index'))
+                    flash('Incorrect Password', 'warning')
+                return render_template(
+                    'confirm.html',
+                    form=form,
+                    message=f'I confirm I want to delete {title}')
+    flash('Post can\'t be deleted', 'warning')
+    return redirect(url_for('index'))
 
 
 @app.route('/create/post/<community_id>', methods=['GET', 'POST'])
 @login_required
 def creatingpostcommunity(community_id):
     form = CreateOpp()
-    if form.validate_on_submit():
+    if request.method == 'POST':
 
         urlCheck = urlparse(form.img.data)
         urlCheck0 = urlparse(form.link.data)
-        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc and ('png' in form.img.data or 'jpg' in form.img.data or 'jpeg' in form.img.data or 'gif' in form.img.data or 'webp' in form.img.data):
+        if urlCheck.scheme and urlCheck.netloc and urlCheck0.scheme and urlCheck0.netloc and (
+                'png' in form.img.data or 'jpg' in form.img.data or 'jpeg' in form.img.data or 'gif' in form.img.data or 'webp' in form.img.data):
             opp = Opportunity()
             result = opp.add(
                 form.title.data,
@@ -94,11 +174,17 @@ def creatingpostcommunity(community_id):
                 current_user['_id'])
             flash('Post created successfully', 'success')
             return redirect(url_for('opportunityPost', _id=result.inserted_id))
-        flash('Error with creation. Link or image might not be a valid link', 'warning')
+        flash(
+            'Error with creation. Link or image might not be a valid link',
+            'warning')
         return render_template('postCreate.html', form=form)
 
     form.date.data = datetime.now()
-    return render_template('postCreate.html', form=form, community=True, current_user=current_user)
+    return render_template(
+        'postCreate.html',
+        form=form,
+        community=True,
+        current_user=current_user)
 
 
 @app.route('/opportunity/<_id>', methods=['GET'])
@@ -110,7 +196,7 @@ def opportunityPost(_id):
             if post['_id'] == ObjectId(_id):
                 return render_template('post.html', post=post)
         raise BaseException
-    except:
+    except BaseException:
         flash('Post not found', 'error')
         return redirect(url_for('index'))
 
@@ -118,16 +204,56 @@ def opportunityPost(_id):
 @app.route('/posts', methods=['GET'])
 def posts():
     opp = Opportunity()
-    posts, size = opp.load_spliced(0, 9)
-    return render_template('posts.html', posts=posts, start=0)
+    posts = opp.load_all()
+    size = 0
+    for i in posts:
+        size += 1
+    count = size // 9
+    startBig = 0 > 1
+    startZero = False
+    startCountCheck = count > 0 and 0 + 1 < count
+    startCount = count > 0
+    postsDone = opp.load_spliced(0,9)
+    return render_template(
+        'posts.html',
+        posts=postsDone,
+        start=0,
+        count=count,
+        startBig=startBig,
+        startZero=startZero,
+        startCountCheck=startCountCheck,
+        startCount=startCount)
 
 
 @app.route('/posts/<start>', methods=['GET'])
 def postsMore(start):
+    try:
+        start = int(start)
+    except:
+        flash('error with posts', 'warning')
+        return redirect(url_for('posts'))
+    start = int(start)
     opp = Opportunity()
-    posts, size = opp.load_spliced(start, 9)
-    if posts:
-        return render_template('posts.html', posts=posts, start=start)
+    posts = opp.load_all()
+    size = 0
+    for i in posts:
+        size += 1
+    count = size // 9
+    if start < count:
+        startBig = start > 1
+        startZero = start != 0
+        startCountCheck = count > start and start + 1 < count
+        startCount = count > start
+        postsDone = opp.load_spliced(start*9,(start*9)+9)
+        return render_template(
+            'posts.html',
+            posts=postsDone,
+            start=start,
+            count=count,
+            startBig=startBig,
+            startZero=startZero,
+            startCountCheck=startCountCheck,
+            startCount=startCountCheck)
     return redirect(url_for('posts'))
 
 
@@ -141,7 +267,8 @@ def test():
         "desc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hellodesc hello",
         "https://rafael.cenzano.com",
         "topic",
-        "Rafael Cenzano")
+        "Rafael Cenzano",
+        current_user._id)
     return redirect(url_for('index'))
 
 
