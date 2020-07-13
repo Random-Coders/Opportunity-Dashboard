@@ -7,7 +7,7 @@ class CommManager(object):
         self.db = connect("community")
 
 
-    def create(self, title, desc, topic):
+    def create(self, title, desc, topic, img):
 
         # start a comm collection
         comm_col = self.db.comm
@@ -15,6 +15,7 @@ class CommManager(object):
         comm_obj = {
                 "title": title,
                 "description": desc,
+                "img": img,
                 "topic": topic,
                 "count": 0,
                 "follow": 0,
@@ -38,6 +39,7 @@ class CommManager(object):
                 "title": comm['title'],
                 "description": comm['description'],
                 "topic": topic,
+                "img": comm['img']
                 "count": comm['count']+1,
                 "follow": comm['follow'],
                 "post_id": post_id
