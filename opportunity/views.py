@@ -81,7 +81,7 @@ def communityPost(_id):
         # find opp post by id
         comm = connect('community').comm.find({"_id" : ObjectId(_id)}).limit(1)[0]
         if comm:
-            posts = connect('opportunity').opps.find({"topic" : ObjectId(_id)})
+            posts = connect('opportunity').opps.find({"topic" : _id})
             return render_template('community.html', comm=comm, posts=posts)
         raise BaseException
     except BaseException:
@@ -211,7 +211,8 @@ def opportunityPost(_id):
         # find opp post by id
         post = connect('opportunity').opps.find({"_id" : ObjectId(_id)}).limit(1)[0]
         if post:
-            return render_template('post.html', post=post)    
+            comm = connect('community').comm.find({"_id" : ObjectId(post['topic'])}).limit(1)[0]
+            return render_template('post.html', post=post, comm=comm)
         raise BaseException
     except BaseException:
         flash('Post not found', 'error')
