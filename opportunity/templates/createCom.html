@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if edit %}Edit{% else %}Create{% endif %} Community{% endblock %}
+
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="" autocomplete="off">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">{% if edit %}Edit{% else %}Create{% endif %} Community</h2>
+    <div class="form-group">
+    {{ form.title.label(class="form-label-css") }}
+    <br>
+    {% if form.title.errors %}
+        {{ form.title(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.title.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.title() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.img.label(class="form-label-css") }}
+    <br>
+    {% if form.img.errors %}
+        {{ form.img(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.img.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.img() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.desc.label(class="form-label-css") }}
+    <br>
+    {% if form.desc.errors %}
+        {{ form.desc(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.desc.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.desc() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock %}
