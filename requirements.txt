@@ -15,7 +15,7 @@ MarkupSafe==1.1.1
 pycparser==2.20
 pymongo==4.6.3
 six==1.15.0
-Werkzeug==3.0.3
+Werkzeug==3.0.6
 WTForms==2.3.1
 Flask-Login==0.5.0
 pymongo==4.6.3
